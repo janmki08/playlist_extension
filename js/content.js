@@ -21,7 +21,7 @@ Object.assign(edgeZone.style, {
     position: "fixed",
     top: "0",
     right: "0",
-    width: "10px",
+    width: "20px",
     height: "100%",
     zIndex: "9998",
     cursor: "pointer"
@@ -51,6 +51,15 @@ edgeZone.addEventListener("mouseleave", () => {
 
 // 감지존을 클릭하면 완전히 열기
 edgeZone.addEventListener("click", () => {
+    if (!isSidebarOpen) {
+        sidebar.style.transform = "translateX(0)";
+        sidebar.style.pointerEvents = "auto";
+        isSidebarOpen = true;
+    }
+});
+
+// 사이드바 살짝 나온 상태에서 직접 클릭해도 완전히 열리게
+sidebar.addEventListener("click", () => {
     if (!isSidebarOpen) {
         sidebar.style.transform = "translateX(0)";
         sidebar.style.pointerEvents = "auto";
