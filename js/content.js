@@ -27,7 +27,6 @@ Object.assign(edgeZone.style, {
     height: "100%",
     zIndex: "9998",
     cursor: "pointer",
-    backgroundColor: "rgba(255, 0, 0, 0.2)" // 테스트용
 });
 document.body.appendChild(edgeZone);
 
@@ -41,7 +40,6 @@ Object.assign(clickOverlay.style, {
     height: "100%",
     zIndex: "10000", // iframe 위에 위치
     cursor: "pointer",
-    backgroundColor: "rgba(0, 0, 255, 0.2)", // 테스트용
     display: "none"
 });
 document.body.appendChild(clickOverlay);
