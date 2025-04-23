@@ -106,3 +106,38 @@ li button {
     cursor: pointer;
     color: inherit;
 }
+
+#settings-container {
+    position: relative;
+}
+
+#dropdown {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    width: 150px;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode #dropdown {
+    background-color: #2c2c2c;
+    color: white;
+    border-color: #444;
+}
+
+#dropdown.hidden {
+    display: none;
+}
+
+#dropdown select {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 4px;
+    font-size: 14px;
+}

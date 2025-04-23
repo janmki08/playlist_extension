@@ -87,3 +87,46 @@ document.addEventListener("DOMContentLoaded", () => {
     const themeToggleBtn = document.getElementById("theme-toggle");
     themeToggleBtn.addEventListener("click", toggleTheme);
 });
+
+// 설정 토글
+document.getElementById("theme-toggle").addEventListener("click", () => {
+    const dropdown = document.getElementById("dropdown");
+    dropdown.classList.toggle("hidden");
+});
+
+// 테마 변경
+document.getElementById("theme-select").addEventListener("change", (e) => {
+    const theme = e.target.value;
+    chrome.storage.local.set({ theme }, () => {
+        applyTheme(theme);
+    });
+});
+
+// 언어 변경
+document.getElementById("lang-select").addEventListener("change", (e) => {
+    const lang = e.target.value;
+    chrome.storage.local.set({ lang }, () => {
+        applyLanguage(lang);
+    });
+});
+
+// 언어 적용 함수
+function applyLanguage(lang) {
+    const headerText = lang === "en" ? "🎵 My Playlist" : "🎵 내 재생목록";
+    const saveBtn = document.getElementById("save-btn");
+    const urlInput = document.getElementById("video-url");
+
+    document.querySelector("#header h2").textContent = headerText;
+    saveBtn.textContent = lang === "en" ? "Save" : "저장";
+    urlInput.placeholder = lang === "en" ? "Paste YouTube link" : "유튜브 링크 붙여넣기";
+}
+
+// 초기 설정 불러오기
+chrome.storage.local.get(["theme", "lang"], (result) => {
+    const theme = result.theme || "light";
+    const lang = result.lang || "ko";
+    document.getElementById("theme-select").value = theme;
+    document.getElementById("lang-select").value = lang;
+    applyTheme(theme);
+    applyLanguage(lang);
+});
