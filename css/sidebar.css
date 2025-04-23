@@ -122,8 +122,6 @@ body.dark-mode #dropdown {
     gap: 0.8em;
     margin-bottom: 1.2em;
     flex-wrap: wrap;
-    background: rgba(36, 36, 36, 0.8);
-    border-color: #444;
 }
 
 #input-area input {
@@ -133,6 +131,8 @@ body.dark-mode #dropdown {
     border-radius: 4px;
     font-size: var(--font-size-base);
     min-width: 0;
+    background: rgba(36, 36, 36, 0.8);
+    border-color: #444;
 }
 
 #input-area button {
