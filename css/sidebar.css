@@ -36,7 +36,7 @@ body.dark-mode {
     top: 1em;
     right: 1em;
     display: flex;
-    /*gap: 0.6em; */
+    gap: 0.8em;
     z-index: 1001;
 }
 
