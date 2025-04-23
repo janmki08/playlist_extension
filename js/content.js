@@ -59,6 +59,35 @@ document.addEventListener("mousemove", (e) => {
     }
 });
 
+// 외부 클릭 시 닫힘
+document.addEventListener("click", (e) => {
+    const inSidebar = sidebar.contains(e.target);
+    const inZone = hoverZone.contains(e.target);
+
+    if (!inSidebar && !inZone && sidebarPinned) {
+        sidebar.style.transform = "translateX(100%)";
+        sidebarPinned = false;
+    }
+});
+
+// iframe → content.js 메시지 수신 (닫기 요청)
+window.addEventListener("message", (event) => {
+    if (event.data?.action === "closeSidebar") {
+        sidebar.style.transform = "translateX(100%)";
+        sidebarPinned = false;
+    }
+});
+
+// iframe 로드 후 닫기 버튼 이벤트 연결
+sidebar.addEventListener("load", () => {
+    const closeScript = `
+        document.getElementById("close-btn").addEventListener("click", () => {
+            parent.postMessage({ action: "closeSidebar" }, "*");
+        });
+    `;
+    sidebar.contentWindow.eval(closeScript);
+});
+
 // 테마 동기화
 function sendThemeToSidebar() {
     const app = document.querySelector("ytd-app");
