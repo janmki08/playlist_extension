@@ -1,3 +1,16 @@
+function applyTheme(theme) {
+    document.body.classList.toggle("dark-mode", theme === "dark");
+}
+
+function toggleTheme() {
+    chrome.storage.local.get(["theme"], (result) => {
+        const newTheme = result.theme === "dark" ? "light" : "dark";
+        chrome.storage.local.set({ theme: newTheme }, () => {
+            applyTheme(newTheme);
+        });
+    });
+}
+
 // 저장된 재생목록 불러오기
 function loadPlaylist() {
     chrome.storage.local.get(["playlist"], (result) => {
@@ -28,7 +41,7 @@ function loadPlaylist() {
     });
 }
 
-// 메시지 수신 → 새 영상 추가
+// 메시지 수신 → 영상 추가
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "addToPlaylist") {
         chrome.storage.local.get(["playlist"], (result) => {
@@ -41,12 +54,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
 });
 
+// 초기화
 document.addEventListener("DOMContentLoaded", () => {
     loadPlaylist();
 
+    chrome.storage.local.get(["theme"], (result) => {
+        const savedTheme = result.theme || "light";
+        applyTheme(savedTheme);
+    });
+
     const saveBtn = document.getElementById("save-btn");
     const urlInput = document.getElementById("video-url");
-
     saveBtn.addEventListener("click", () => {
         const url = urlInput.value.trim();
         if (!url || !url.includes("youtube.com/watch")) {
@@ -54,9 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // 제목은 임시로 URL 기반
         const title = "링크 저장됨";
-
         chrome.storage.local.get(["playlist"], (result) => {
             const playlist = result.playlist || [];
             playlist.push({ title, url });
@@ -66,16 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     });
-});
 
-// 테마 적용
-window.addEventListener("message", (event) => {
-    const theme = event.data?.theme;
-    if (theme === "dark") {
-        document.body.classList.add("dark-mode");
-    } else {
-        document.body.classList.remove("dark-mode");
-    }
+    // 테마 토글 버튼
+    const themeToggleBtn = document.getElementById("theme-toggle");
+    themeToggleBtn.addEventListener("click", toggleTheme);
 });
-
-document.addEventListener("DOMContentLoaded", loadPlaylist);
