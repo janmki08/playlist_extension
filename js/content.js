@@ -1,6 +1,7 @@
+// 기본 상태
 let isSidebarOpen = false;
 
-// 📘 사이드바 iframe 생성
+// 사이드바 생성
 const sidebar = document.createElement("iframe");
 sidebar.src = chrome.runtime.getURL("html/sidebar.html");
 Object.assign(sidebar.style, {
@@ -12,12 +13,12 @@ Object.assign(sidebar.style, {
     border: "none",
     zIndex: "9999",
     transition: "transform 0.3s ease-in-out",
-    transform: "translateX(295px)", // 처음엔 숨김
+    transform: "translateX(295px)", // 완전 숨김
     pointerEvents: "auto" // 항상 클릭 가능
 });
 document.body.appendChild(sidebar);
 
-// 🟥 감지존 생성 (테스트용 배경)
+// 감지존
 const edgeZone = document.createElement("div");
 Object.assign(edgeZone.style, {
     position: "fixed",
@@ -26,57 +27,40 @@ Object.assign(edgeZone.style, {
     width: "10px",
     height: "100%",
     zIndex: "9998",
-    cursor: "pointer",
+    cursor: "pointer"
 });
 document.body.appendChild(edgeZone);
 
-// 🟦 클릭 오버레이 (iframe 위 클릭 감지용)
-const clickOverlay = document.createElement("div");
-Object.assign(clickOverlay.style, {
-    position: "fixed",
-    top: "0",
-    right: "0",
-    width: "30px", // 슬쩍 나온 범위
-    height: "100%",
-    zIndex: "10000", // iframe 위에 위치
-    cursor: "pointer",
-    display: "none"
-});
-document.body.appendChild(clickOverlay);
-
-// 👉 감지존 진입: 사이드바 살짝 보이기
+// 마우스 진입 시 살짝 나옴
 edgeZone.addEventListener("mouseenter", () => {
     if (!isSidebarOpen) {
-        sidebar.style.transform = "translateX(270px)";
-        clickOverlay.style.display = "block";
+        sidebar.style.transform = "translateX(270px)"; // 30px 보이기
     }
 });
 
-// 👉 감지존 벗어남: 다시 숨기기
+// 마우스 벗어나면 다시 숨김
 edgeZone.addEventListener("mouseleave", () => {
     if (!isSidebarOpen) {
         sidebar.style.transform = "translateX(295px)";
-        clickOverlay.style.display = "none";
     }
 });
 
-// 🖱 클릭 오버레이 클릭 → 전체 펼침
-clickOverlay.addEventListener("click", () => {
-    if (!isSidebarOpen) {
-        sidebar.style.transform = "translateX(0)";
-        isSidebarOpen = true;
-        clickOverlay.style.display = "none";
-    }
-});
-
-// 📦 바깥 클릭 시 닫기
+// document 클릭 감지 → 슬쩍 나왔을 때 클릭 시 전체 펼치기
 document.addEventListener("click", (e) => {
     const mouseX = e.clientX;
     const screenWidth = window.innerWidth;
+
+    // 슬쩍 나왔을 때 보이는 30px 안쪽 클릭이면 열기
+    if (!isSidebarOpen && mouseX > screenWidth - 30) {
+        sidebar.style.transform = "translateX(0)";
+        isSidebarOpen = true;
+        return;
+    }
+
+    // 열린 상태에서 바깥 클릭 시 닫기
     if (isSidebarOpen && mouseX < screenWidth - 300) {
         sidebar.style.transform = "translateX(295px)";
         isSidebarOpen = false;
-        clickOverlay.style.display = "none";
     }
 });
 
