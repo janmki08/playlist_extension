@@ -30,6 +30,16 @@ body.dark-mode {
     height: 100%;
 }
 
+/* 버튼 설정 */
+button {
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
 /* ✅ 상단 버튼(✖ + ⚙) 정렬 */
 #top-controls {
     position: absolute;
