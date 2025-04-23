@@ -10,15 +10,15 @@ Object.assign(sidebar.style, {
     right: "0",
     width: "300px",
     height: "100%",
-    border: "3px solid blue", // 클릭 가능한 iframe 경계 표시 (테스트용)
+    border: "none",
     zIndex: "9999",
     transition: "transform 0.3s ease-in-out",
-    transform: "translateX(295px)",
-    pointerEvents: "auto"
+    transform: "translateX(295px)", // 완전 숨김
+    pointerEvents: "auto" // 항상 클릭 가능
 });
 document.body.appendChild(sidebar);
 
-// 감지존 생성 (테스트용 배경색 포함)
+// 감지존
 const edgeZone = document.createElement("div");
 Object.assign(edgeZone.style, {
     position: "fixed",
@@ -27,11 +27,9 @@ Object.assign(edgeZone.style, {
     width: "10px",
     height: "100%",
     zIndex: "9998",
-    cursor: "pointer",
-    backgroundColor: "rgba(255, 0, 0, 1)" // 빨간색 감지 영역 표시
+    cursor: "pointer"
 });
 document.body.appendChild(edgeZone);
-
 
 // 마우스 진입 시 살짝 나옴
 edgeZone.addEventListener("mouseenter", () => {
