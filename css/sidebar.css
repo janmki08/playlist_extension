@@ -22,12 +22,12 @@ body.dark-mode {
 
 /* ✅ 사이드바 전체 */
 #sidebar-root {
-    padding: var(--sidebar-padding);
     width: 100%;
-    height: 100%;
-    max-width: 100vw;
+    max-width: 100%;
+    min-width: 200px;
     box-sizing: border-box;
-    position: relative;
+    padding: var(--sidebar-padding);
+    height: 100%;
 }
 
 /* ✅ 상단 버튼(✖ + ⚙) 정렬 */

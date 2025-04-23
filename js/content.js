@@ -11,6 +11,8 @@ Object.assign(sidebar.style, {
     zIndex: "9998",
     transition: "transform 0.3s ease-in-out",
     transform: "translateX(100%)",
+    width: "clamp(200px, 25vw, 300px)",
+    minWidth: "200px"
 });
 document.body.appendChild(sidebar);
 
