@@ -47,6 +47,11 @@ body.dark-mode {
     cursor: pointer;
     color: inherit;
     padding: 0.5em;
+    min-width: 2.5em;
+    min-height: 2.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
 }
 
