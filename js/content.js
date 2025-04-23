@@ -38,15 +38,30 @@ toggleBtn.addEventListener("click", () => {
 });
 
 // 유튜브 테마 감지(밝은, 어두운)
-function detectYouTubeTheme() {
-    const isDark = document.querySelector("ytd-app")?.classList.contains("dark");
+function observeThemeChangeAndPostToSidebar() {
+    const app = document.querySelector("ytd-app");
+    if (!app) return;
+
     const iframe = document.querySelector("iframe[src*='sidebar.html']");
-    if (iframe) {
-        iframe.addEventListener("load", () => {
-            iframe.contentWindow.postMessage({ theme: isDark ? "dark" : "light" }, "*");
+    if (!iframe) return;
+
+    const postTheme = () => {
+        const isDark = app.classList.contains("dark");
+        iframe.contentWindow.postMessage({ theme: isDark ? "dark" : "light" }, "*");
+    };
+
+    // 초기 테마 전송
+    iframe.addEventListener("load", () => {
+        postTheme();
+
+        // 감시 시작
+        const observer = new MutationObserver(() => {
+            postTheme();
         });
-    }
+
+        observer.observe(app, { attributes: true, attributeFilter: ["class"] });
+    });
 }
-setTimeout(() => {
-    detectYouTubeTheme();
-}, 1000); // 페이지 로딩 후 클래스 적용 기다림
+
+setTimeout(observeThemeChangeAndPostToSidebar, 1000);
+
