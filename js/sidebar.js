@@ -91,26 +91,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const input = document.getElementById("video-url");
-    const dropZone = document.getElementById("drop-zone");
 
-    dropZone.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        dropZone.style.border = "2px dashed #4CAF50";
+    // 기본 동작 허용
+    input.addEventListener("dragover", (e) => {
+        e.preventDefault(); // 이게 없으면 기본 드롭 안됨
     });
 
-    dropZone.addEventListener("dragleave", () => {
-        dropZone.style.border = "none";
-    });
-
-    dropZone.addEventListener("drop", (e) => {
-        e.preventDefault();
-        dropZone.style.border = "none";
-
-        const data = e.dataTransfer.getData("text/plain");
-        if (data.includes("youtube.com/watch")) {
-            input.value = data.trim();
+    input.addEventListener("drop", (e) => {
+        e.preventDefault(); // 기본 붙여넣기 막힘
+        const text = e.dataTransfer.getData("text/plain");
+        if (text.includes("youtube.com/watch")) {
+            input.value = text.trim();
         }
     });
+
 });
 
 // 설정 토글
