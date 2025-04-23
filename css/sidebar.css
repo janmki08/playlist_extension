@@ -80,7 +80,7 @@ h2 {
     top: 100%;
     right: 0;
     margin-top: 0.5em;
-    background-color: #fff;
+    background-color: #2c2c2c;
     padding: 0.8em;
     border: 1px solid #ccc;
     z-index: 1000;
@@ -122,12 +122,13 @@ body.dark-mode #dropdown {
     gap: 0.8em;
     margin-bottom: 1.2em;
     flex-wrap: wrap;
+    background-color: #2c2c2c;
 }
 
 #input-area input {
     flex: 1;
     padding: 0.6em;
-    border: 1px solid #ccc;
+    border: 1px solid #444;
     border-radius: 4px;
     font-size: var(--font-size-base);
     min-width: 0;
