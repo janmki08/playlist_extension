@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // 설정 토글
 document.getElementById("theme-toggle").addEventListener("click", () => {
     const dropdown = document.getElementById("dropdown");
-    dropdown.classList.toggle("hidden");
+    dropdown.classList.toggle("show");
 });
 
 // 테마 변경
