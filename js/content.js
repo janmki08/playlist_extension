@@ -10,12 +10,12 @@ Object.assign(sidebar.style, {
     border: "none",
     zIndex: "9999",
     transition: "transform 0.3s ease-in-out",
-    transform: "translateX(295px)", // 처음에는 살짝만 보이게
-    pointerEvents: "none" // 클릭 방지 (완전히 열릴 때만 가능)
+    transform: "translateX(295px)",
+    pointerEvents: "none", // 슬쩍일 때는 클릭 안되게
 });
 document.body.appendChild(sidebar);
 
-// 감지용 히든 핫존 생성
+// 감지존 생성
 const edgeZone = document.createElement("div");
 Object.assign(edgeZone.style, {
     position: "fixed",
@@ -29,28 +29,41 @@ Object.assign(edgeZone.style, {
 document.body.appendChild(edgeZone);
 
 let isSidebarOpen = false;
+let isHovering = false;
 
-// 마우스 진입 시 슬쩍 보여주기
+// 마우스가 감지존에 들어오면 살짝 보여주기
 edgeZone.addEventListener("mouseenter", () => {
     if (!isSidebarOpen) {
-        sidebar.style.transform = "translateX(270px)"; // 30px만 보이게
-        sidebar.style.pointerEvents = "auto"; // 클릭 허용
+        sidebar.style.transform = "translateX(270px)";
+        sidebar.style.pointerEvents = "auto";
+        isHovering = true;
     }
 });
 
-// 클릭 시 완전히 열기
+// 마우스가 감지존을 벗어나면 다시 숨기기
+edgeZone.addEventListener("mouseleave", () => {
+    if (!isSidebarOpen) {
+        sidebar.style.transform = "translateX(295px)";
+        sidebar.style.pointerEvents = "none";
+        isHovering = false;
+    }
+});
+
+// 감지존을 클릭하면 완전히 열기
 edgeZone.addEventListener("click", () => {
     if (!isSidebarOpen) {
         sidebar.style.transform = "translateX(0)";
+        sidebar.style.pointerEvents = "auto";
         isSidebarOpen = true;
     }
 });
 
-// 사이드바 바깥 클릭 시 닫기
+// 바깥 클릭 시 닫기
 document.addEventListener("click", (e) => {
+    const isInsideSidebar = e.clientX > window.innerWidth - 300;
     if (
         isSidebarOpen &&
-        !sidebar.contains(e.target) &&
+        !isInsideSidebar &&
         !edgeZone.contains(e.target)
     ) {
         sidebar.style.transform = "translateX(295px)";
