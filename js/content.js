@@ -78,16 +78,6 @@ window.addEventListener("message", (event) => {
     }
 });
 
-// iframe 로드 후 닫기 버튼 이벤트 연결
-sidebar.addEventListener("load", () => {
-    const closeScript = `
-        document.getElementById("close-btn").addEventListener("click", () => {
-            parent.postMessage({ action: "closeSidebar" }, "*");
-        });
-    `;
-    sidebar.contentWindow.eval(closeScript);
-});
-
 // 테마 동기화
 function sendThemeToSidebar() {
     const app = document.querySelector("ytd-app");

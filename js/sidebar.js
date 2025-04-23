@@ -82,6 +82,13 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     });
+
+    const closeBtn = document.getElementById("close-btn");
+    if (closeBtn) {
+        closeBtn.addEventListener("click", () => {
+            window.parent.postMessage({ action: "closeSidebar" }, "*");
+        });
+    }
 });
 
 // 설정 토글
