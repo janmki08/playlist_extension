@@ -34,7 +34,7 @@ let sidebarPinned = false;
 // 마우스 hover → 살짝 보여줌
 hoverZone.addEventListener("mouseenter", () => {
     if (!sidebarPinned) {
-        sidebar.style.transform = "translateX(-40px)"; // 슬쩍 보이기
+        sidebar.style.transform = "translateX(260px)"; // 슬쩍 보이기
     }
 });
 
