@@ -1,7 +1,6 @@
-// 기본 상태
 let isSidebarOpen = false;
 
-// 사이드바 생성
+// 📘 사이드바 iframe 생성
 const sidebar = document.createElement("iframe");
 sidebar.src = chrome.runtime.getURL("html/sidebar.html");
 Object.assign(sidebar.style, {
@@ -13,12 +12,12 @@ Object.assign(sidebar.style, {
     border: "none",
     zIndex: "9999",
     transition: "transform 0.3s ease-in-out",
-    transform: "translateX(295px)", // 완전 숨김
+    transform: "translateX(295px)", // 처음엔 숨김
     pointerEvents: "auto" // 항상 클릭 가능
 });
 document.body.appendChild(sidebar);
 
-// 감지존
+// 🟥 감지존 생성 (테스트용 배경)
 const edgeZone = document.createElement("div");
 Object.assign(edgeZone.style, {
     position: "fixed",
@@ -27,48 +26,61 @@ Object.assign(edgeZone.style, {
     width: "10px",
     height: "100%",
     zIndex: "9998",
-    cursor: "pointer"
+    cursor: "pointer",
+    backgroundColor: "rgba(255, 0, 0, 0.2)" // 테스트용
 });
 document.body.appendChild(edgeZone);
 
-// 마우스 진입 시 살짝 나옴
+// 🟦 클릭 오버레이 (iframe 위 클릭 감지용)
+const clickOverlay = document.createElement("div");
+Object.assign(clickOverlay.style, {
+    position: "fixed",
+    top: "0",
+    right: "0",
+    width: "30px", // 슬쩍 나온 범위
+    height: "100%",
+    zIndex: "10000", // iframe 위에 위치
+    cursor: "pointer",
+    backgroundColor: "rgba(0, 0, 255, 0.2)", // 테스트용
+    display: "none"
+});
+document.body.appendChild(clickOverlay);
+
+// 👉 감지존 진입: 사이드바 살짝 보이기
 edgeZone.addEventListener("mouseenter", () => {
     if (!isSidebarOpen) {
-        sidebar.style.transform = "translateX(270px)"; // 30px 보이기
+        sidebar.style.transform = "translateX(270px)";
+        clickOverlay.style.display = "block";
     }
 });
 
-// 마우스 벗어나면 다시 숨김
+// 👉 감지존 벗어남: 다시 숨기기
 edgeZone.addEventListener("mouseleave", () => {
     if (!isSidebarOpen) {
         sidebar.style.transform = "translateX(295px)";
+        clickOverlay.style.display = "none";
     }
 });
 
-// document 클릭 감지 → 슬쩍 나왔을 때 클릭 시 전체 펼치기
-document.addEventListener("click", (e) => {
-    const sidebarRect = sidebar.getBoundingClientRect();
-
-    const clickedInsideSidebar =
-        e.clientX >= sidebarRect.left &&
-        e.clientX <= sidebarRect.right &&
-        e.clientY >= sidebarRect.top &&
-        e.clientY <= sidebarRect.bottom;
-
-    if (!isSidebarOpen && clickedInsideSidebar) {
-        // 슬쩍 나온 상태에서 클릭 → 완전히 열기
+// 🖱 클릭 오버레이 클릭 → 전체 펼침
+clickOverlay.addEventListener("click", () => {
+    if (!isSidebarOpen) {
         sidebar.style.transform = "translateX(0)";
         isSidebarOpen = true;
-        return;
-    }
-
-    if (isSidebarOpen && !clickedInsideSidebar) {
-        // 열려있는데 사이드바 외부 클릭 → 닫기
-        sidebar.style.transform = "translateX(295px)";
-        isSidebarOpen = false;
+        clickOverlay.style.display = "none";
     }
 });
 
+// 📦 바깥 클릭 시 닫기
+document.addEventListener("click", (e) => {
+    const mouseX = e.clientX;
+    const screenWidth = window.innerWidth;
+    if (isSidebarOpen && mouseX < screenWidth - 300) {
+        sidebar.style.transform = "translateX(295px)";
+        isSidebarOpen = false;
+        clickOverlay.style.display = "none";
+    }
+});
 
 // 테마 동기화
 function sendThemeToSidebar() {
