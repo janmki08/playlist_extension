@@ -28,7 +28,7 @@ Object.assign(edgeZone.style, {
     height: "100%",
     zIndex: "9998",
     cursor: "pointer",
-    backgroundColor: "rgba(255, 0, 0, 0.3)" // 빨간색 감지 영역 표시
+    backgroundColor: "rgba(255, 0, 0, 1)" // 빨간색 감지 영역 표시
 });
 document.body.appendChild(edgeZone);
 
