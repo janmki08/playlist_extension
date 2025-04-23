@@ -74,12 +74,14 @@ h2 {
 /* 설정 드롭다운 메뉴 */
 #settings-container {
     position: relative;
+    display: inline-block;
 }
 
 #dropdown {
     position: absolute;
-    top: 30px;
+    top: 100%;
     right: 0;
+    margin-top: 6px;
     background-color: #fff;
     padding: 10px;
     border: 1px solid #ccc;

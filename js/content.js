@@ -10,7 +10,7 @@ Object.assign(sidebar.style, {
     border: "none",
     zIndex: "9998",
     transition: "transform 0.3s ease-in-out",
-    transform: "translateX(100%)", // 기본은 숨김
+    transform: "translateX(100%)",
 });
 document.body.appendChild(sidebar);
 
@@ -20,9 +20,9 @@ Object.assign(hoverZone.style, {
     position: "fixed",
     top: "0",
     right: "0",
-    width: "20px",
+    width: "40px",
     height: "100%",
-    zIndex: "9999", // iframe 아래
+    zIndex: "9999",
     background: "transparent",
 });
 hoverZone.id = "hover-zone";
