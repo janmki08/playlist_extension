@@ -70,6 +70,7 @@ document.addEventListener("click", (e) => {
     if (!inSidebar && !inZone && sidebarPinned) {
         sidebar.style.transform = "translateX(100%)";
         sidebarPinned = false;
+        hoverZone.style.zIndex = "9999";
     }
 });
 
