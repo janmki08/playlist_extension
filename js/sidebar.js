@@ -27,7 +27,11 @@ function loadPlaylist() {
             link.style.textDecoration = "underline";
 
             link.addEventListener("click", () => {
-                window.location.href = item.url; // 현재 창에서 열림
+                // 본창(content.js)에게 이동 요청 메시지 보냄
+                chrome.runtime.sendMessage({
+                    action: "navigateToUrl",
+                    url: item.url
+                });
             });
 
             const removeBtn = document.createElement("button");
@@ -46,15 +50,20 @@ function loadPlaylist() {
 }
 
 // 메시지 수신 → 영상 추가
+// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+//     if (request.action === "addToPlaylist") {
+//         chrome.storage.local.get(["playlist"], (result) => {
+//             const playlist = result.playlist || [];
+//             playlist.push(request.item);
+//             chrome.storage.local.set({ playlist }, () => {
+//                 loadPlaylist();
+//             });
+//         });
+//     }
+// });
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === "addToPlaylist") {
-        chrome.storage.local.get(["playlist"], (result) => {
-            const playlist = result.playlist || [];
-            playlist.push(request.item);
-            chrome.storage.local.set({ playlist }, () => {
-                loadPlaylist();
-            });
-        });
+    if (request.action === "navigateToUrl" && request.url) {
+        window.location.href = request.url;
     }
 });
 
