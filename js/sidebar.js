@@ -1,3 +1,5 @@
+console.log("sidebar loaded");
+
 // 저장된 재생목록 불러오기
 function loadPlaylist() {
     chrome.storage.local.get(["playlist"], (result) => {
