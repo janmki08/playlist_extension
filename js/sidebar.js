@@ -82,10 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     });
-
-    // 테마 토글 버튼
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    themeToggleBtn.addEventListener("click", toggleTheme);
 });
 
 // 설정 토글
