@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// 메시지 수신 -> 테마 적용
+// 테마 적용
 window.addEventListener("message", (event) => {
     const theme = event.data?.theme;
     if (theme === "dark") {
@@ -77,3 +77,5 @@ window.addEventListener("message", (event) => {
         document.body.classList.remove("dark-mode");
     }
 });
+
+document.addEventListener("DOMContentLoaded", loadPlaylist);
