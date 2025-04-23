@@ -8,7 +8,7 @@ Object.assign(sidebar.style, {
     width: "300px",
     height: "100%",
     border: "none",
-    zIndex: "998",
+    zIndex: "9998",
     transition: "transform 0.3s ease-in-out",
     transform: "translateX(100%)",
 });
@@ -22,7 +22,7 @@ Object.assign(hoverZone.style, {
     right: "0",
     width: "40px",
     height: "100%",
-    zIndex: "999",
+    zIndex: "9999",
     background: "transparent",
 });
 hoverZone.id = "hover-zone";
@@ -42,6 +42,7 @@ hoverZone.addEventListener("mouseenter", () => {
 hoverZone.addEventListener("click", () => {
     sidebarPinned = true;
     sidebar.style.transform = "translateX(0)";
+    hoverZone.style.zIndex = "1";
 });
 
 // 마우스가 완전히 벗어났을 때 → 자동 숨김
@@ -75,6 +76,7 @@ window.addEventListener("message", (event) => {
     if (event.data?.action === "closeSidebar") {
         sidebar.style.transform = "translateX(100%)";
         sidebarPinned = false;
+        hoverZone.style.zIndex = "9999";
     }
 });
 
