@@ -36,3 +36,50 @@ toggleBtn.addEventListener("click", () => {
     isSidebarOpen = !isSidebarOpen;
     sidebar.style.transform = isSidebarOpen ? "translateX(0)" : "translateX(100%)";
 });
+
+// 1. 썸네일에 드래그 속성 추가
+function enableDragOnThumbnails() {
+    const thumbnails = document.querySelectorAll("a#thumbnail");
+    thumbnails.forEach((thumb) => {
+        thumb.setAttribute("draggable", true);
+
+        thumb.addEventListener("dragstart", (e) => {
+            const url = thumb.href;
+            const title = thumb.closest("ytd-video-renderer")?.querySelector("#video-title")?.textContent || "제목 없음";
+            e.dataTransfer.setData("text/plain", JSON.stringify({ title, url }));
+        });
+    });
+}
+
+// 2. 사이드바 드롭 영역 감지
+function enableSidebarDrop() {
+    const sidebarFrame = document.querySelector("iframe[src*='sidebar.html']");
+    if (!sidebarFrame) return;
+
+    sidebarFrame.addEventListener("load", () => {
+        const sidebarWindow = sidebarFrame.contentWindow;
+
+        // 사이드바에 파일을 드롭하면 이벤트 넘겨받기
+        sidebarFrame.contentWindow.document.body.addEventListener("dragover", (e) => e.preventDefault());
+        sidebarFrame.contentWindow.document.body.addEventListener("drop", (e) => {
+            e.preventDefault();
+            const raw = e.dataTransfer.getData("text/plain");
+            if (!raw) return;
+            try {
+                const data = JSON.parse(raw);
+                if (data?.url) {
+                    chrome.runtime.sendMessage({ action: "addToPlaylist", item: data });
+                }
+            } catch (err) {
+                console.error("드롭 데이터 파싱 실패", err);
+            }
+        });
+    });
+}
+
+// 초기화 실행
+setTimeout(() => {
+    enableDragOnThumbnails();
+    enableSidebarDrop();
+}, 2000);
+
