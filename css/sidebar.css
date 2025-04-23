@@ -105,13 +105,19 @@ body.dark-mode #dropdown {
     background-color: #181818;
     color: white;
     border-color: #444;
-    background: #2c2c2c;
 }
 
 body.dark-mode #input-area input {
     background: #2c2c2c;
     color: #fff;
     border-color: #444;
+}
+
+body.dark-mode #dropdown select{
+    background-color: #181818;
+    color: white;
+    border-color: #444;
+    background: #2c2c2c;
 }
 
 #dropdown select {
