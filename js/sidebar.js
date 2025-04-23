@@ -89,6 +89,28 @@ document.addEventListener("DOMContentLoaded", () => {
             window.parent.postMessage({ action: "closeSidebar" }, "*");
         });
     }
+
+    const input = document.getElementById("video-url");
+
+    // 드래그 가능하게 처리
+    input.addEventListener("dragover", (e) => {
+        e.preventDefault(); // 드롭 허용
+        input.style.borderColor = "#4CAF50";
+    });
+
+    input.addEventListener("dragleave", () => {
+        input.style.borderColor = "#ccc";
+    });
+
+    input.addEventListener("drop", (e) => {
+        e.preventDefault();
+        input.style.borderColor = "#ccc";
+
+        const data = e.dataTransfer.getData("text/plain");
+        if (data && data.includes("youtube.com/watch")) {
+            input.value = data.trim();
+        }
+    });
 });
 
 // 설정 토글
