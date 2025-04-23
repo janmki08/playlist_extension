@@ -153,18 +153,3 @@ body.dark-mode #dropdown {
     color: inherit;
     z-index: 1001;
 }
-
-html,
-body {
-    border-radius: 0 0 0 0;
-    overflow: hidden;
-}
-
-#sidebar-root {
-    border-top-left-radius: 16px;
-    border-bottom-left-radius: 16px;
-    background-color: #f9f9f9;
-    height: 100%;
-    overflow-y: auto;
-    box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
-}
