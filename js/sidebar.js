@@ -91,23 +91,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const input = document.getElementById("video-url");
+    const dropZone = document.getElementById("drop-zone");
 
-    // 드래그 가능하게 처리
-    input.addEventListener("dragover", (e) => {
-        e.preventDefault(); // 드롭 허용
-        input.style.borderColor = "#4CAF50";
-    });
-
-    input.addEventListener("dragleave", () => {
-        input.style.borderColor = "#ccc";
-    });
-
-    input.addEventListener("drop", (e) => {
+    dropZone.addEventListener("dragover", (e) => {
         e.preventDefault();
-        input.style.borderColor = "#ccc";
+        dropZone.style.border = "2px dashed #4CAF50";
+    });
+
+    dropZone.addEventListener("dragleave", () => {
+        dropZone.style.border = "none";
+    });
+
+    dropZone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropZone.style.border = "none";
 
         const data = e.dataTransfer.getData("text/plain");
-        if (data && data.includes("youtube.com/watch")) {
+        if (data.includes("youtube.com/watch")) {
             input.value = data.trim();
         }
     });
