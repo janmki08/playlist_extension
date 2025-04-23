@@ -46,6 +46,8 @@ body.dark-mode {
     font-size: 1.3em;
     cursor: pointer;
     color: inherit;
+    padding: 0.5em;
+    border-radius: 50%;
 }
 
 /* ✅ 제목 */
