@@ -36,3 +36,17 @@ toggleBtn.addEventListener("click", () => {
     isSidebarOpen = !isSidebarOpen;
     sidebar.style.transform = isSidebarOpen ? "translateX(0)" : "translateX(100%)";
 });
+
+// 유튜브 테마 감지(밝은, 어두운)
+function detectYouTubeTheme() {
+    const isDark = document.querySelector("ytd-app")?.classList.contains("dark");
+    const iframe = document.querySelector("iframe[src*='sidebar.html']");
+    if (iframe) {
+        iframe.addEventListener("load", () => {
+            iframe.contentWindow.postMessage({ theme: isDark ? "dark" : "light" }, "*");
+        });
+    }
+}
+setTimeout(() => {
+    detectYouTubeTheme();
+}, 1000); // 페이지 로딩 후 클래스 적용 기다림

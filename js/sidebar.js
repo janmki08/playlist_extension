@@ -68,5 +68,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-
-document.addEventListener("DOMContentLoaded", loadPlaylist);
+// 메시지 수신 -> 테마 적용
+window.addEventListener("message", (event) => {
+    const theme = event.data?.theme;
+    if (theme === "dark") {
+        document.body.classList.add("dark-mode");
+    } else {
+        document.body.classList.remove("dark-mode");
+    }
+});
