@@ -47,21 +47,27 @@ function observeThemeChangeAndPostToSidebar() {
 
     const postTheme = () => {
         const isDark = app.classList.contains("dark");
-        iframe.contentWindow.postMessage({ theme: isDark ? "dark" : "light" }, "*");
+        iframe.contentWindow?.postMessage({ theme: isDark ? "dark" : "light" }, "*");
     };
 
-    // 초기 테마 전송
+    // iframe이 로드된 이후에도 계속 테마를 감지
+    const observer = new MutationObserver(() => {
+        postTheme();
+    });
+
+    observer.observe(app, { attributes: true, attributeFilter: ["class"] });
+
+    // iframe이 완전히 로드된 후에도 테마 전송
     iframe.addEventListener("load", () => {
         postTheme();
-
-        // 감시 시작
-        const observer = new MutationObserver(() => {
-            postTheme();
-        });
-
-        observer.observe(app, { attributes: true, attributeFilter: ["class"] });
     });
+
+    // 혹시 iframe이 이미 로드된 상태라면 바로 전송
+    if (iframe.contentDocument?.readyState === "complete") {
+        postTheme();
+    }
 }
 
-setTimeout(observeThemeChangeAndPostToSidebar, 1000);
-
+window.addEventListener("load", () => {
+    setTimeout(observeThemeChangeAndPostToSidebar, 1500);
+});
