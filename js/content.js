@@ -47,22 +47,28 @@ edgeZone.addEventListener("mouseleave", () => {
 
 // document 클릭 감지 → 슬쩍 나왔을 때 클릭 시 전체 펼치기
 document.addEventListener("click", (e) => {
-    const mouseX = e.clientX;
-    const screenWidth = window.innerWidth;
+    const sidebarRect = sidebar.getBoundingClientRect();
 
-    // 슬쩍 나왔을 때 보이는 30px 안쪽 클릭이면 열기
-    if (!isSidebarOpen && mouseX > screenWidth - 30) {
+    const clickedInsideSidebar =
+        e.clientX >= sidebarRect.left &&
+        e.clientX <= sidebarRect.right &&
+        e.clientY >= sidebarRect.top &&
+        e.clientY <= sidebarRect.bottom;
+
+    if (!isSidebarOpen && clickedInsideSidebar) {
+        // 슬쩍 나온 상태에서 클릭 → 완전히 열기
         sidebar.style.transform = "translateX(0)";
         isSidebarOpen = true;
         return;
     }
 
-    // 열린 상태에서 바깥 클릭 시 닫기
-    if (isSidebarOpen && mouseX < screenWidth - 300) {
+    if (isSidebarOpen && !clickedInsideSidebar) {
+        // 열려있는데 사이드바 외부 클릭 → 닫기
         sidebar.style.transform = "translateX(295px)";
         isSidebarOpen = false;
     }
 });
+
 
 // 테마 동기화
 function sendThemeToSidebar() {
