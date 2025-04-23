@@ -110,6 +110,7 @@ li button {
 
 /* Buttons */
 button {
+    position: absolute;
     background: none;
     border: none;
     font-size: 18px;
@@ -118,9 +119,9 @@ button {
 }
 
 #close-btn {
-    position: absolute;
     top: 10px;
     right: 10px;
+    font-size: 18px;
     z-index: 1001;
 }
 
