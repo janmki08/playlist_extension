@@ -1,5 +1,3 @@
-console.log("sidebar loaded");
-
 // 저장된 재생목록 불러오기
 function loadPlaylist() {
     chrome.storage.local.get(["playlist"], (result) => {
@@ -42,5 +40,33 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
     }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadPlaylist();
+
+    const saveBtn = document.getElementById("save-btn");
+    const urlInput = document.getElementById("video-url");
+
+    saveBtn.addEventListener("click", () => {
+        const url = urlInput.value.trim();
+        if (!url || !url.includes("youtube.com/watch")) {
+            alert("유효한 유튜브 영상 링크를 입력해주세요.");
+            return;
+        }
+
+        // 제목은 임시로 URL 기반
+        const title = "링크 저장됨";
+
+        chrome.storage.local.get(["playlist"], (result) => {
+            const playlist = result.playlist || [];
+            playlist.push({ title, url });
+            chrome.storage.local.set({ playlist }, () => {
+                urlInput.value = "";
+                loadPlaylist();
+            });
+        });
+    });
+});
+
 
 document.addEventListener("DOMContentLoaded", loadPlaylist);
