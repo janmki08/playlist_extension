@@ -21,10 +21,14 @@ function loadPlaylist() {
         playlist.forEach((item, index) => {
             const li = document.createElement("li");
 
-            const link = document.createElement("a");
-            link.href = item.url;
-            link.target = "_blank";
+            const link = document.createElement("span");
             link.textContent = item.title || item.url;
+            link.style.cursor = "pointer";
+            link.style.textDecoration = "underline";
+
+            link.addEventListener("click", () => {
+                window.location.href = item.url; // 현재 창에서 열림
+            });
 
             const removeBtn = document.createElement("button");
             removeBtn.textContent = "❌";
@@ -89,21 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
             window.parent.postMessage({ action: "closeSidebar" }, "*");
         });
     }
-
-    const input = document.getElementById("video-url");
-
-    // 기본 동작 허용
-    input.addEventListener("dragover", (e) => {
-        e.preventDefault(); // 이게 없으면 기본 드롭 안됨
-    });
-
-    input.addEventListener("drop", (e) => {
-        e.preventDefault(); // 기본 붙여넣기 막힘
-        const text = e.dataTransfer.getData("text/plain");
-        if (text.includes("youtube.com/watch")) {
-            input.value = text.trim();
-        }
-    });
 
 });
 
