@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "My YouTube Playlist Sidebar",
+  "version": "1.0",
+  "description": "Save and access YouTube videos quickly from a sidebar.",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["https://www.youtube.com/*"],
+  "action": {
+    "default_icon": {
+      "16": "icon/icon48.png"
+    },
+    "default_title": "Toggle Playlist Sidebar"
+  },
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["js/content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "html/sidebar.html",
+        "css/sidebar.css",
+        "js/sidebar.js"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  }
+}
