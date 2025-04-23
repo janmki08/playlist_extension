@@ -8,7 +8,7 @@ Object.assign(sidebar.style, {
     width: "300px",
     height: "100%",
     border: "none",
-    zIndex: "9999",
+    zIndex: "9998",
     transition: "transform 0.3s ease-in-out",
     transform: "translateX(100%)", // 기본은 숨김
 });
@@ -22,7 +22,7 @@ Object.assign(hoverZone.style, {
     right: "0",
     width: "20px",
     height: "100%",
-    zIndex: "9998", // iframe 아래
+    zIndex: "9999", // iframe 아래
     background: "transparent",
 });
 hoverZone.id = "hover-zone";
