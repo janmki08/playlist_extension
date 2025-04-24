@@ -29,6 +29,7 @@ function loadPlaylist() {
             img.style.flexShrink = "0";
             img.style.borderRadius = "4px";
             img.style.cursor = "pointer";
+            img.classList.add("hover-zoom", "thumbnail-hover");
 
             // 텍스트 링크 (제목)
             const link = document.createElement("span");
@@ -39,6 +40,7 @@ function loadPlaylist() {
             link.style.whiteSpace = "nowrap";
             link.style.overflow = "hidden";
             link.style.textOverflow = "ellipsis";
+            link.classList.add("hover-zoom");
 
             // 클릭 → 본창에서 이동 (공통 로직)
             const navigateToVideo = () => {
