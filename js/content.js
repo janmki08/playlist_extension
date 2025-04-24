@@ -29,20 +29,6 @@ Object.assign(hoverZone.style, {
 hoverZone.id = "hover-zone";
 document.body.appendChild(hoverZone);
 
-// 사이드바 리사이징
-const resizer = document.createElement("div");
-Object.assign(resizer.style, {
-    position: "fixed",
-    top: "0",
-    right: "300px", // 초기 너비 기준
-    width: "6px",
-    height: "100%",
-    background: "transparent",
-    cursor: "col-resize",
-    zIndex: "10000"
-});
-document.body.appendChild(resizer);
-
 // 사이드바 상태
 let sidebarPinned = false;
 
@@ -76,7 +62,21 @@ document.addEventListener("mousemove", (e) => {
     }
 });
 
-// 사이드바 리사이징
+// 사이드바 리사이징 start
+const resizer = document.createElement("div");
+Object.assign(resizer.style, {
+    position: "fixed",
+    top: "0",
+    left: `${window.innerWidth - parseInt(sidebar.style.width)}px`,
+    width: "6px",
+    height: "100%",
+    background: "transparent",
+    cursor: "col-resize",
+    zIndex: "10000"
+});
+
+document.body.appendChild(resizer);
+
 let isResizing = false;
 let sidebarWidth = 300;
 let animationFrameId = null;
@@ -95,7 +95,10 @@ document.addEventListener("mousemove", (e) => {
     if (animationFrameId) cancelAnimationFrame(animationFrameId);
     animationFrameId = requestAnimationFrame(() => {
         sidebar.style.width = `${sidebarWidth}px`;
-        resizer.style.left = `${e.clientX}px`;
+
+        // 리사이저를 사이드바 왼쪽에 맞춤
+        const sidebarRect = sidebar.getBoundingClientRect();
+        resizer.style.left = `${sidebarRect.left}px`;
     });
 });
 
@@ -105,6 +108,7 @@ document.addEventListener("mouseup", () => {
         document.body.style.cursor = "default";
     }
 });
+// 리사이징 end
 
 // 외부 클릭 시 닫힘
 document.addEventListener("click", (e) => {
