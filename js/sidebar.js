@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const isDuplicate = playlist.some(item => item.url === url);
             if (isDuplicate) {
-                showToast("❗ 이미 저장된 영상입니다.");
+                showToast();
                 return;
             }
 
@@ -202,6 +202,10 @@ const languageData = {
         placeholder: "유튜브 링크 붙여넣기",
         theme: "🎨 테마",
         language: "🌐 언어",
+        themeOptions: {
+            light: "밝은 테마",
+            dark: "어두운 테마"
+        },
         toast_duplicate: "❗ 이미 저장된 영상입니다."
     },
     en: {
@@ -210,6 +214,10 @@ const languageData = {
         placeholder: "Paste YouTube link",
         theme: "🎨 Theme",
         language: "🌐 Language",
+        themeOptions: {
+            light: "Light Theme",
+            dark: "Dark Theme"
+        },
         toast_duplicate: "❗ This video is already saved."
     }
 };
@@ -224,6 +232,11 @@ function applyLanguage(lang) {
 
     document.getElementById("theme-label").textContent = data.theme;
     document.getElementById("lang-label").textContent = data.language;
+
+    // 테마 옵션 텍스트
+    const themeSelect = document.getElementById("theme-select");
+    themeSelect.options[0].textContent = data.themeOptions.light;
+    themeSelect.options[1].textContent = data.themeOptions.dark;
 
     // 토스트 메시지용 변수 저장 (전역)
     window.currentToastText = data.toast_duplicate;
