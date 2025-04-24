@@ -207,6 +207,11 @@ li button {
 }
 
 .thumbnail-hover:hover {
+    border-color: #1282cc;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode.thumbnail-hover:hover {
     border-color: #4CAF50;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
 }
@@ -223,10 +228,10 @@ body.dark-mode li {
 /* 토스트 메시지 */
 #toast {
     position: fixed;
-    bottom: 20px;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.7);
     color: white;
     padding: 10px 16px;
     border-radius: 6px;
@@ -235,6 +240,11 @@ body.dark-mode li {
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
+}
+
+body.dark-mode #toast {
+    background-color: rgba(255, 255, 255, 0.7);
+    color: black;
 }
 
 #toast.show {
