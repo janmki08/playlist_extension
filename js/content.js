@@ -5,7 +5,6 @@ Object.assign(sidebar.style, {
     position: "fixed",
     top: "0",
     right: "0",
-    width: "300px",
     height: "100%",
     border: "none",
     zIndex: "9998",
@@ -92,7 +91,7 @@ document.addEventListener("mousemove", (e) => {
 
     if (newWidth >= 200 && newWidth <= 600) {
         sidebar.style.width = `${newWidth}px`;
-        resizer.style.right = `${newWidth}px`;
+        resizer.style.right = `${e.clientX}px`;
     }
 });
 
