@@ -40,6 +40,11 @@ hoverZone.addEventListener("mouseenter", () => {
     }
 });
 
+function updateHoverZonePosition() {
+    hoverZone.style.right = "0";
+    hoverZone.style.width = "40px"; // 여전히 고정폭 유지
+}
+
 // 클릭 → 완전히 펼침 + 고정
 hoverZone.addEventListener("click", () => {
     sidebarPinned = true;
@@ -75,6 +80,21 @@ Object.assign(ghostLine.style, {
     pointerEvents: "none",
 });
 document.body.appendChild(ghostLine);
+
+const resizer = document.createElement("div");
+Object.assign(resizer.style, {
+    position: "fixed",
+    top: "0",
+    width: "6px",
+    height: "100%",
+    background: "transparent",
+    cursor: "col-resize",
+    zIndex: "10000"
+});
+document.body.appendChild(resizer);
+
+// 최초 위치 설정
+resizer.style.left = `${window.innerWidth - parseInt(sidebar.style.width, 10)}px`;
 
 let isResizing = false;
 let startX = 0;
