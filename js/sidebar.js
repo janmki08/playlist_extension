@@ -26,7 +26,7 @@ function loadPlaylist() {
             img.src = item.thumbnail || "https://via.placeholder.com/?text=No+Thumbnail";
             img.alt = "썸네일";
             img.style.width = "110px";
-            img.style.height = "84px";
+            img.style.height = "auto";
             img.style.flexShrink = "0";
             img.style.borderRadius = "8px";
             img.style.cursor = "pointer";
@@ -42,7 +42,6 @@ function loadPlaylist() {
             link.style.overflow = "hidden";
             link.style.textOverflow = "ellipsis";
             link.classList.add("hover-zoom");
-            link.classList.add("line-clamp-2");
 
             // 클릭 → 본창에서 이동 (공통 로직)
             const navigateToVideo = () => {
