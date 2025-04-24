@@ -179,7 +179,7 @@ li span {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: calc(100% - 140px);
+    max-width: 85px;
 }
 
 li button {
@@ -208,6 +208,15 @@ li button {
 .thumbnail-hover:hover {
     border-color: #4CAF50;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* 최대 줄 수 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;
 }
 
 /* 다크모드 리스트 테두리 */

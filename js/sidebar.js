@@ -42,6 +42,7 @@ function loadPlaylist() {
             link.style.overflow = "hidden";
             link.style.textOverflow = "ellipsis";
             link.classList.add("hover-zoom");
+            link.classList.add("line-clamp-2");
 
             // 클릭 → 본창에서 이동 (공통 로직)
             const navigateToVideo = () => {
