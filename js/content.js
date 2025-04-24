@@ -11,7 +11,7 @@ Object.assign(sidebar.style, {
     zIndex: "9998",
     transition: "transform 0.3s ease-in-out",
     transform: "translateX(100%)",
-    width: "clamp(200px, 25vw, 300px)",
+    width: "300px",
     minWidth: "200px"
 });
 document.body.appendChild(sidebar);
@@ -29,6 +29,20 @@ Object.assign(hoverZone.style, {
 });
 hoverZone.id = "hover-zone";
 document.body.appendChild(hoverZone);
+
+// 사이드바 리사이징
+const resizer = document.createElement("div");
+Object.assign(resizer.style, {
+    position: "fixed",
+    top: "0",
+    right: "300px", // 초기 너비 기준
+    width: "6px",
+    height: "100%",
+    background: "transparent",
+    cursor: "col-resize",
+    zIndex: "10000"
+});
+document.body.appendChild(resizer);
 
 // 사이드바 상태
 let sidebarPinned = false;
@@ -59,6 +73,33 @@ document.addEventListener("mousemove", (e) => {
 
     if (!isInSidebar && !isInZone && !sidebarPinned) {
         sidebar.style.transform = "translateX(100%)";
+    }
+});
+
+// 사이드바 리사이징
+let isResizing = false;
+
+resizer.addEventListener("mousedown", (e) => {
+    isResizing = true;
+    document.body.style.cursor = "col-resize";
+});
+
+document.addEventListener("mousemove", (e) => {
+    if (!isResizing) return;
+
+    const newWidth = window.innerWidth - e.clientX;
+    const sidebar = document.querySelector("iframe[src*='sidebar.html']");
+
+    if (newWidth >= 200 && newWidth <= 600) {
+        sidebar.style.width = `${newWidth}px`;
+        resizer.style.right = `${newWidth}px`;
+    }
+});
+
+document.addEventListener("mouseup", () => {
+    if (isResizing) {
+        isResizing = false;
+        document.body.style.cursor = "default";
     }
 });
 

@@ -27,7 +27,7 @@ function loadPlaylist() {
             img.alt = "썸네일";
             img.style.width = "45%";
             img.style.flexShrink = "0";
-            img.style.borderRadius = "4px";
+            img.style.borderRadius = "8px";
             img.style.cursor = "pointer";
             img.classList.add("hover-zoom", "thumbnail-hover");
 
@@ -35,7 +35,7 @@ function loadPlaylist() {
             const link = document.createElement("span");
             link.textContent = item.title || item.url;
             link.style.cursor = "pointer";
-            link.style.textDecoration = "underline";
+            // link.style.textDecoration = "underline";
             link.style.flexGrow = "1";
             link.style.whiteSpace = "nowrap";
             link.style.overflow = "hidden";
