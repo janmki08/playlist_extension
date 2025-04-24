@@ -23,13 +23,13 @@ function loadPlaylist() {
 
             // 썸네일 이미지
             const img = document.createElement("img");
-            img.src = item.thumbnail || "https://via.placeholder.com/80x45?text=No+Thumbnail";
+            img.src = item.thumbnail || "https://via.placeholder.com/168x94?text=No+Thumbnail";
             img.alt = "썸네일";
-            img.style.width = "80px";
-            img.style.height = "45px";
+            img.style.width = "168px";
+            img.style.height = "94px";
             img.style.flexShrink = "0";
             img.style.borderRadius = "4px";
-            img.style.marginRight = "8px";
+            img.style.cursor = "pointer";
 
             // 텍스트 링크 (제목)
             const link = document.createElement("span");
@@ -41,19 +41,20 @@ function loadPlaylist() {
             link.style.overflow = "hidden";
             link.style.textOverflow = "ellipsis";
 
-            // 클릭 시 본창에서 이동
-            link.addEventListener("click", () => {
-                // 1. 먼저 사이드바 닫기
+            // 클릭 → 본창에서 이동 (공통 로직)
+            const navigateToVideo = () => {
                 window.parent.postMessage({ action: "closeSidebar" }, "*");
-
-                // 2. 이동 요청
                 setTimeout(() => {
                     chrome.runtime.sendMessage({
                         action: "navigateToUrl",
                         url: item.url
                     });
                 }, 300);
-            });
+            };
+
+            // 제목, 썸네일 둘 다 클릭 가능하게
+            link.addEventListener("click", navigateToVideo);
+            img.addEventListener("click", navigateToVideo);
 
             // 삭제 버튼
             const removeBtn = document.createElement("button");
@@ -68,7 +69,7 @@ function loadPlaylist() {
             const contentBox = document.createElement("div");
             contentBox.style.display = "flex";
             contentBox.style.alignItems = "center";
-            contentBox.style.gap = "8px";
+            contentBox.style.gap = "12px";
             contentBox.style.flexGrow = "1";
             contentBox.appendChild(img);
             contentBox.appendChild(link);
@@ -76,6 +77,7 @@ function loadPlaylist() {
             li.style.display = "flex";
             li.style.alignItems = "center";
             li.style.justifyContent = "space-between";
+            li.style.marginBottom = "8px";
             li.appendChild(contentBox);
             li.appendChild(removeBtn);
 
@@ -83,6 +85,7 @@ function loadPlaylist() {
         });
     });
 }
+
 
 
 // 메시지 수신 → 영상 추가
