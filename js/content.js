@@ -50,7 +50,7 @@ let sidebarPinned = false;
 hoverZone.addEventListener("mouseenter", () => {
     if (!sidebarPinned) {
         const previewAmount = 30;
-        sidebar.style.transform = `translateX(-${sidebarWidth - previewAmount}px)`; // 슬쩍 보이기
+        sidebar.style.transform = `translateX(${sidebarWidth - previewAmount}px)`; // 슬쩍 보이기
     }
 });
 
