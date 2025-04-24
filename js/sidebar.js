@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const isDuplicate = playlist.some(item => item.url === url);
             if (isDuplicate) {
-                alert("이미 저장된 영상입니다!");
+                showToast("❗ 이미 저장된 영상입니다.");
                 return;
             }
 
@@ -203,6 +203,17 @@ function applyLanguage(lang) {
     document.querySelector("#header h2").textContent = headerText;
     saveBtn.textContent = lang === "en" ? "Save" : "저장";
     urlInput.placeholder = lang === "en" ? "Paste YouTube link" : "유튜브 링크 붙여넣기";
+}
+
+// 토스트 표시 함수
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2500); // 2.5초 후 자동 사라짐
 }
 
 // 초기 설정 불러오기

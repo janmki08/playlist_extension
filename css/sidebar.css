@@ -219,3 +219,24 @@ body.dark-mode li {
 #video-url {
     transition: border-color 0.2s ease;
 }
+
+/* 토스트 메시지 */
+#toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+#toast.show {
+    opacity: 1;
+}
