@@ -168,10 +168,9 @@ ul#playlist li {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.6em;
+    gap: 8px;
+    padding: 6px;
     border-bottom: 1px solid #ccc;
-    margin-bottom: 0.5em;
-    border-radius: 6px;
 }
 
 li span {
@@ -180,6 +179,7 @@ li span {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    max-width: calc(100% - 140px);
 }
 
 li button {
