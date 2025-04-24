@@ -194,27 +194,53 @@ document.getElementById("lang-select").addEventListener("change", (e) => {
     });
 });
 
+// 언어 데이터
+const languageData = {
+    ko: {
+        header: "🎵 내 재생목록",
+        save: "저장",
+        placeholder: "유튜브 링크 붙여넣기",
+        theme: "🎨 테마",
+        language: "🌐 언어",
+        toast_duplicate: "❗ 이미 저장된 영상입니다."
+    },
+    en: {
+        header: "🎵 My Playlist",
+        save: "Save",
+        placeholder: "Paste YouTube link",
+        theme: "🎨 Theme",
+        language: "🌐 Language",
+        toast_duplicate: "❗ This video is already saved."
+    }
+};
+
 // 언어 적용 함수
 function applyLanguage(lang) {
-    const headerText = lang === "en" ? "🎵 My Playlist" : "🎵 내 재생목록";
-    const saveBtn = document.getElementById("save-btn");
-    const urlInput = document.getElementById("video-url");
+    const data = languageData[lang];
 
-    document.querySelector("#header h2").textContent = headerText;
-    saveBtn.textContent = lang === "en" ? "Save" : "저장";
-    urlInput.placeholder = lang === "en" ? "Paste YouTube link" : "유튜브 링크 붙여넣기";
+    document.querySelector("#header h2").textContent = data.header;
+    document.getElementById("save-btn").textContent = data.save;
+    document.getElementById("video-url").placeholder = data.placeholder;
+
+    document.getElementById("theme-label").textContent = data.theme;
+    document.getElementById("lang-label").textContent = data.language;
+
+    // 토스트 메시지용 변수 저장 (전역)
+    window.currentToastText = data.toast_duplicate;
 }
 
+
 // 토스트 표시 함수
-function showToast(message) {
+function showToast(message = window.currentToastText) {
     const toast = document.getElementById("toast");
     toast.textContent = message;
     toast.classList.add("show");
 
     setTimeout(() => {
         toast.classList.remove("show");
-    }, 2500); // 2.5초 후 자동 사라짐
+    }, 2500); // 2.5초
 }
+
 
 // 초기 설정 불러오기
 chrome.storage.local.get(["theme", "lang"], (result) => {
