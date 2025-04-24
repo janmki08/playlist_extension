@@ -91,7 +91,7 @@ document.addEventListener("mousemove", (e) => {
 
     if (newWidth >= 200 && newWidth <= 600) {
         sidebar.style.width = `${newWidth}px`;
-        resizer.style.right = `${e.clientX}px`;
+        resizer.style.left = `${e.client}px`;
     }
 });
 
