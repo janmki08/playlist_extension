@@ -63,51 +63,50 @@ document.addEventListener("mousemove", (e) => {
 });
 
 // 사이드바 리사이징 start
-const resizer = document.createElement("div");
-Object.assign(resizer.style, {
+const ghostLine = document.createElement("div");
+Object.assign(ghostLine.style, {
     position: "fixed",
     top: "0",
-    left: `${window.innerWidth - parseInt(sidebar.style.width)}px`,
-    width: "6px",
+    width: "2px",
     height: "100%",
-    background: "transparent",
-    cursor: "col-resize",
-    zIndex: "10000"
+    background: "#4CAF50",
+    zIndex: "9999",
+    display: "none",
+    pointerEvents: "none",
 });
-
-document.body.appendChild(resizer);
+document.body.appendChild(ghostLine);
 
 let isResizing = false;
-let sidebarWidth = 300;
-let animationFrameId = null;
+let startX = 0;
 
-resizer.addEventListener("mousedown", () => {
+resizer.addEventListener("mousedown", (e) => {
     isResizing = true;
+    startX = e.clientX;
+    ghostLine.style.left = `${startX}px`;
+    ghostLine.style.display = "block";
     document.body.style.cursor = "col-resize";
 });
 
 document.addEventListener("mousemove", (e) => {
     if (!isResizing) return;
-
-    const newWidth = window.innerWidth - e.clientX;
-    sidebarWidth = Math.min(Math.max(newWidth, 200), 600);
-
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    animationFrameId = requestAnimationFrame(() => {
-        sidebar.style.width = `${sidebarWidth}px`;
-
-        // 리사이저를 사이드바 왼쪽에 맞춤
-        const sidebarRect = sidebar.getBoundingClientRect();
-        resizer.style.left = `${sidebarRect.left}px`;
-    });
+    const clampedX = Math.min(Math.max(e.clientX, window.innerWidth - 600), window.innerWidth - 200);
+    ghostLine.style.left = `${clampedX}px`;
 });
 
 document.addEventListener("mouseup", () => {
     if (isResizing) {
         isResizing = false;
+        ghostLine.style.display = "none";
         document.body.style.cursor = "default";
+
+        const newWidth = window.innerWidth - parseInt(ghostLine.style.left, 10);
+        sidebarWidth = newWidth;
+        sidebar.style.width = `${sidebarWidth}px`;
+
+        resizer.style.left = `${window.innerWidth - sidebarWidth}px`;
     }
 });
+
 // 리사이징 end
 
 // 외부 클릭 시 닫힘
