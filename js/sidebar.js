@@ -25,7 +25,8 @@ function loadPlaylist() {
             const img = document.createElement("img");
             img.src = item.thumbnail || "https://via.placeholder.com/?text=No+Thumbnail";
             img.alt = "썸네일";
-            img.style.width = "45%";
+            img.style.width = "93px";
+            img.style.height = "71px";
             img.style.flexShrink = "0";
             img.style.borderRadius = "8px";
             img.style.cursor = "pointer";
