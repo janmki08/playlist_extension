@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     saveBtn.addEventListener("click", async () => {
         const url = urlInput.value.trim();
         if (!url.includes("youtube.com/watch")) {
-            alert("유효한 유튜브 영상 링크를 입력해주세요.");
+            alert("유효한 유튜브 링크를 입력해주세요.");
             return;
         }
 
@@ -147,6 +147,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         chrome.storage.local.get(["playlist"], (result) => {
             const playlist = result.playlist || [];
+
+            const isDuplicate = playlist.some(item => item.url === url);
+            if (isDuplicate) {
+                alert("이미 저장된 영상입니다!");
+                return;
+            }
+
             playlist.push({ title, url, thumbnail });
             chrome.storage.local.set({ playlist }, () => {
                 urlInput.value = "";
@@ -155,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-
+    // 사이드바 닫기 버튼
     const closeBtn = document.getElementById("close-btn");
     if (closeBtn) {
         closeBtn.addEventListener("click", () => {
