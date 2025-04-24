@@ -32,11 +32,11 @@ document.body.appendChild(hoverZone);
 // 사이드바 상태
 let sidebarPinned = false;
 
-// 마우스 hover → 살짝 보여줌
+// 마우스 hover → 슬쩍 보여주기
 hoverZone.addEventListener("mouseenter", () => {
     if (!sidebarPinned) {
         const previewAmount = 30;
-        sidebar.style.transform = `translateX(${sidebarWidth - previewAmount}px)`; // 슬쩍 보이기
+        sidebar.style.transform = `translateX(${300 - previewAmount}px)`;
     }
 });
 
@@ -61,54 +61,6 @@ document.addEventListener("mousemove", (e) => {
         sidebar.style.transform = "translateX(100%)";
     }
 });
-
-// 사이드바 리사이징 start
-const resizer = document.createElement("div");
-Object.assign(resizer.style, {
-    position: "fixed",
-    top: "0",
-    left: `${window.innerWidth - parseInt(sidebar.style.width)}px`,
-    width: "6px",
-    height: "100%",
-    background: "transparent",
-    cursor: "col-resize",
-    zIndex: "10000"
-});
-
-document.body.appendChild(resizer);
-
-let isResizing = false;
-let sidebarWidth = 300;
-let animationFrameId = null;
-
-resizer.addEventListener("mousedown", () => {
-    isResizing = true;
-    document.body.style.cursor = "col-resize";
-});
-
-document.addEventListener("mousemove", (e) => {
-    if (!isResizing) return;
-
-    const newWidth = window.innerWidth - e.clientX;
-    sidebarWidth = Math.min(Math.max(newWidth, 200), 600);
-
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    animationFrameId = requestAnimationFrame(() => {
-        sidebar.style.width = `${sidebarWidth}px`;
-
-        // 리사이저를 사이드바 왼쪽에 맞춤
-        const sidebarRect = sidebar.getBoundingClientRect();
-        resizer.style.left = `${sidebarRect.left}px`;
-    });
-});
-
-document.addEventListener("mouseup", () => {
-    if (isResizing) {
-        isResizing = false;
-        document.body.style.cursor = "default";
-    }
-});
-// 리사이징 end
 
 // 외부 클릭 시 닫힘
 document.addEventListener("click", (e) => {
