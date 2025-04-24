@@ -174,12 +174,20 @@ ul#playlist li {
 }
 
 li span {
-    flex-grow: 1;
-    margin-left: 0.6em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
+
+    white-space: normal;
     text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 85px;
+
+    max-width: clamp(60px, 25vw, 100px);
+    /* 너가 원하는 고정폭 */
+    margin-left: 0.6em;
+    font-size: 0.9rem;
+    line-height: 1.2em;
+    /* 줄 간격 조절하면 더 깔끔해짐 */
 }
 
 li button {
