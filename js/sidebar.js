@@ -27,11 +27,14 @@ function loadPlaylist() {
             link.style.textDecoration = "underline";
 
             link.addEventListener("click", () => {
-                // 본창(content.js)에게 이동 요청 메시지 보냄
-                chrome.runtime.sendMessage({
-                    action: "navigateToUrl",
-                    url: item.url
-                });
+                window.parent.postMessage({ action: "closeSidebar" }, "*");
+
+                setTimeout(() => {
+                    chrome.runtime.sendMessage({
+                        action: "navigateToUrl",
+                        url: item.url
+                    });
+                }, 300);
             });
 
             const removeBtn = document.createElement("button");
@@ -61,6 +64,7 @@ function loadPlaylist() {
 //         });
 //     }
 // });
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "navigateToUrl" && request.url) {
         window.location.href = request.url;
