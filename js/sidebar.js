@@ -73,6 +73,7 @@ function loadPlaylist() {
             contentBox.style.alignItems = "center";
             contentBox.style.gap = "12px";
             contentBox.style.flexGrow = "1";
+            contentBox.style.maxWidth = "215px"
             contentBox.appendChild(img);
             contentBox.appendChild(link);
 
