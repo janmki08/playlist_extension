@@ -40,11 +40,6 @@ hoverZone.addEventListener("mouseenter", () => {
     }
 });
 
-function updateHoverZonePosition() {
-    hoverZone.style.right = "0";
-    hoverZone.style.width = "40px"; // 여전히 고정폭 유지
-}
-
 // 클릭 → 완전히 펼침 + 고정
 hoverZone.addEventListener("click", () => {
     sidebarPinned = true;
@@ -68,65 +63,51 @@ document.addEventListener("mousemove", (e) => {
 });
 
 // 사이드바 리사이징 start
-const ghostLine = document.createElement("div");
-Object.assign(ghostLine.style, {
-    position: "fixed",
-    top: "0",
-    width: "2px",
-    height: "100%",
-    background: "#4CAF50",
-    zIndex: "9999",
-    display: "none",
-    pointerEvents: "none",
-});
-document.body.appendChild(ghostLine);
-
 const resizer = document.createElement("div");
 Object.assign(resizer.style, {
     position: "fixed",
     top: "0",
+    left: `${window.innerWidth - parseInt(sidebar.style.width)}px`,
     width: "6px",
     height: "100%",
     background: "transparent",
     cursor: "col-resize",
     zIndex: "10000"
 });
+
 document.body.appendChild(resizer);
 
-// 최초 위치 설정
-resizer.style.left = `${window.innerWidth - parseInt(sidebar.style.width, 10)}px`;
-
 let isResizing = false;
-let startX = 0;
+let sidebarWidth = 300;
+let animationFrameId = null;
 
-resizer.addEventListener("mousedown", (e) => {
+resizer.addEventListener("mousedown", () => {
     isResizing = true;
-    startX = e.clientX;
-    ghostLine.style.left = `${startX}px`;
-    ghostLine.style.display = "block";
     document.body.style.cursor = "col-resize";
 });
 
 document.addEventListener("mousemove", (e) => {
     if (!isResizing) return;
-    const clampedX = Math.min(Math.max(e.clientX, window.innerWidth - 600), window.innerWidth - 200);
-    ghostLine.style.left = `${clampedX}px`;
+
+    const newWidth = window.innerWidth - e.clientX;
+    sidebarWidth = Math.min(Math.max(newWidth, 200), 600);
+
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    animationFrameId = requestAnimationFrame(() => {
+        sidebar.style.width = `${sidebarWidth}px`;
+
+        // 리사이저를 사이드바 왼쪽에 맞춤
+        const sidebarRect = sidebar.getBoundingClientRect();
+        resizer.style.left = `${sidebarRect.left}px`;
+    });
 });
 
 document.addEventListener("mouseup", () => {
     if (isResizing) {
         isResizing = false;
-        ghostLine.style.display = "none";
         document.body.style.cursor = "default";
-
-        const newWidth = window.innerWidth - parseInt(ghostLine.style.left, 10);
-        sidebarWidth = newWidth;
-        sidebar.style.width = `${sidebarWidth}px`;
-
-        resizer.style.left = `${window.innerWidth - sidebarWidth}px`;
     }
 });
-
 // 리사이징 end
 
 // 외부 클릭 시 닫힘
