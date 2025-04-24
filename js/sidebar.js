@@ -23,10 +23,9 @@ function loadPlaylist() {
 
             // 썸네일 이미지
             const img = document.createElement("img");
-            img.src = item.thumbnail || "https://via.placeholder.com/168x94?text=No+Thumbnail";
+            img.src = item.thumbnail || "https://via.placeholder.com/?text=No+Thumbnail";
             img.alt = "썸네일";
-            img.style.width = "168px";
-            img.style.height = "94px";
+            img.style.width = "45%";
             img.style.flexShrink = "0";
             img.style.borderRadius = "4px";
             img.style.cursor = "pointer";
