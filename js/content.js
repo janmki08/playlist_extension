@@ -49,7 +49,8 @@ let sidebarPinned = false;
 // 마우스 hover → 살짝 보여줌
 hoverZone.addEventListener("mouseenter", () => {
     if (!sidebarPinned) {
-        sidebar.style.transform = "translateX(260px)"; // 슬쩍 보이기
+        const previewAmount = 30;
+        sidebar.style.transform = `translateX(-${sidebarWidth - previewAmount}px)`; // 슬쩍 보이기
     }
 });
 
@@ -77,8 +78,10 @@ document.addEventListener("mousemove", (e) => {
 
 // 사이드바 리사이징
 let isResizing = false;
+let sidebarWidth = 300;
+let animationFrameId = null;
 
-resizer.addEventListener("mousedown", (e) => {
+resizer.addEventListener("mousedown", () => {
     isResizing = true;
     document.body.style.cursor = "col-resize";
 });
@@ -87,12 +90,13 @@ document.addEventListener("mousemove", (e) => {
     if (!isResizing) return;
 
     const newWidth = window.innerWidth - e.clientX;
-    const sidebar = document.querySelector("iframe[src*='sidebar.html']");
+    sidebarWidth = Math.min(Math.max(newWidth, 200), 600);
 
-    if (newWidth >= 200 && newWidth <= 600) {
-        sidebar.style.width = `${newWidth}px`;
-        resizer.style.left = `${e.client}px`;
-    }
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    animationFrameId = requestAnimationFrame(() => {
+        sidebar.style.width = `${sidebarWidth}px`;
+        resizer.style.left = `${e.clientX}px`;
+    });
 });
 
 document.addEventListener("mouseup", () => {
