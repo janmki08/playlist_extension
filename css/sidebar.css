@@ -257,12 +257,12 @@ body.dark-mode #toast {
 }
 
 .drag-handle {
-    font-size: 18px;
     font-weight: bold;
-    color: #666;
-    cursor: grab;
+    font-size: 18px;
+    color: #888;
     user-select: none;
-    margin-right: 0.6em;
+    cursor: grab;
+    flex-shrink: 0;
 }
 
 .sortable-chosen {
