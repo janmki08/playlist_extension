@@ -68,7 +68,7 @@ h2 {
 /* ✅ 설정 드롭다운 */
 #settings-container {
     position: relative;
-    transform: translateY(-5em);
+    /*transform: translateY(-5em);*/
 }
 
 #dropdown {
