@@ -142,7 +142,9 @@ const languageData = {
             light: "밝은 테마",
             dark: "어두운 테마"
         },
-        toast_duplicate: "❗ 이미 저장된 영상입니다."
+        toast_duplicate: "❗ 이미 저장된 영상입니다 ❗",
+        toast_not_valid: "❗ 유효한 링크를 입력하십시오 ❗",
+        toast_not_youtube: "❗ 현재 탭이 유튜브 영상이 아닙니다 ❗"
     },
     en: {
         header: "🎵 My Playlist",
@@ -154,7 +156,9 @@ const languageData = {
             light: "Light Theme",
             dark: "Dark Theme"
         },
-        toast_duplicate: "❗ This video is already saved."
+        toast_duplicate: "❗ This video is already saved ❗",
+        toast_not_valid: "❗ Please enter a valid link ❗",
+        toast_not_youtube: "❗ Current tab is not a YouTube video ❗"
     }
 };
 
@@ -175,7 +179,11 @@ function applyLanguage(lang) {
     themeSelect.options[1].textContent = data.themeOptions.dark;
 
     // 토스트 메시지용 변수 저장 (전역)
-    window.currentToastText = data.toast_duplicate;
+    window.toastMessages = {
+        duplicate: data.toast_duplicate,
+        not_youtube: data.toast_not_youtube,
+        not_valid: data.toast_not_valid
+    };
 }
 
 // 언어 변경
@@ -237,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
     saveBtn.addEventListener("click", async () => {
         const url = urlInput.value.trim();
         if (!url.includes("youtube.com/watch")) {
-            alert("유효한 유튜브 링크를 입력해주세요.");
+            showToast(window.toastMessages.not_valid);
             return;
         }
 
@@ -296,7 +304,7 @@ document.getElementById("add-current-btn").addEventListener("click", async () =>
         const url = tab.url;
 
         if (!url.includes("youtube.com/watch")) {
-            alert("현재 탭이 유튜브 영상이 아닙니다.");
+            showToast(window.toastMessages.not_youtube);
             return;
         }
 
