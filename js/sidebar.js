@@ -72,6 +72,7 @@ function loadPlaylist() {
             const img = document.createElement("img");
             img.src = item.thumbnail || "https://via.placeholder.com/110x68?text=No+Thumbnail";
             img.alt = "썸네일";
+            img.title = item.title;
             img.style.width = "90px";
             img.style.height = "auto";
             img.style.flexShrink = "0";
@@ -82,6 +83,7 @@ function loadPlaylist() {
             // 제목
             const link = document.createElement("span");
             link.textContent = item.title || item.url;
+            link.title = item.title || item.url;
             link.style.cursor = "pointer";
             link.classList.add("hover-zoom");
             link.style.flexGrow = "1";
