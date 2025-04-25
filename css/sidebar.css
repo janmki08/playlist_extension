@@ -168,7 +168,7 @@ ul#playlist li {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
+    /*gap: 8px;*/
     padding: 6px;
     border-bottom: 1px solid #ccc;
     transition: transform 150ms ease-in-out;
@@ -185,11 +185,10 @@ ul#playlist li.dragging {
 
 li span {
     flex-grow: 1;
-    margin-left: 0.6em;
+    margin-right: 0.6em;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    /*max-width: 85px;*/
     min-width: 0;
 }
 
