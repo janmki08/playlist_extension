@@ -245,3 +245,9 @@ body.dark-mode #toast {
 #toast.show {
     opacity: 1;
 }
+
+.drag-handle {
+    font-weight: bold;
+    user-select: none;
+    cursor: grab;
+}

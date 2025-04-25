@@ -19,8 +19,6 @@ function loadPlaylist() {
         ul.innerHTML = "";
 
         playlist.forEach((item, index) => {
-            const li = document.createElement("li");
-
             // 썸네일 이미지
             const img = document.createElement("img");
             img.src = item.thumbnail || "https://via.placeholder.com/?text=No+Thumbnail";
@@ -77,14 +75,26 @@ function loadPlaylist() {
             contentBox.appendChild(img);
             contentBox.appendChild(link);
 
+            // 리스트
+            const li = document.createElement("li");
             li.style.display = "flex";
             li.style.alignItems = "center";
             li.style.justifyContent = "space-between";
             li.style.marginBottom = "8px";
+            li.draggable = true;
+            li.appendChild(handle);
             li.appendChild(contentBox);
             li.appendChild(removeBtn);
 
             ul.appendChild(li);
+
+            const handle = document.createElement("span");
+            handle.textContent = "≡";
+            handle.style.cursor = "grab";
+            handle.style.marginRight = "0.5em";
+            handle.draggable = true; // 핵심!
+            handle.classList.add("drag-handle");
+
         });
     });
 }
@@ -241,6 +251,35 @@ function applyLanguage(lang) {
     // 토스트 메시지용 변수 저장 (전역)
     window.currentToastText = data.toast_duplicate;
 }
+
+// 드래그 이벤트
+let dragSrcIndex = null;
+
+li.addEventListener("dragstart", () => {
+    dragSrcIndex = index;
+    li.style.opacity = "0.5";
+});
+
+li.addEventListener("dragend", () => {
+    li.style.opacity = "1";
+});
+
+li.addEventListener("dragover", (e) => {
+    e.preventDefault(); // 필수!
+});
+
+li.addEventListener("drop", () => {
+    if (dragSrcIndex === null || dragSrcIndex === index) return;
+
+    // 순서 교체
+    const moved = playlist.splice(dragSrcIndex, 1)[0];
+    playlist.splice(index, 0, moved);
+
+    // 저장 + 다시 렌더링
+    chrome.storage.local.set({ playlist }, () => {
+        loadPlaylist();
+    });
+});
 
 
 // 토스트 표시 함수
