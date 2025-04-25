@@ -90,34 +90,48 @@ function loadPlaylist() {
             li.appendChild(contentBox);
             li.appendChild(removeBtn);
 
+            ul.appendChild(li);
             // 드래그 이벤트
-            li.addEventListener("dragstart", () => {
+            li.addEventListener("dragstart", (e) => {
                 dragSrcIndex = index;
                 li.classList.add("dragging");
+
+                // 드래그 시 사라지지 않도록 직접 드래그된 요소 유지
+                e.dataTransfer.effectAllowed = "move";
+                e.dataTransfer.setData("text/plain", ""); // Firefox 대응
             });
 
             li.addEventListener("dragend", () => {
                 li.classList.remove("dragging");
             });
 
-            li.addEventListener("dragover", () => {
-                li.style.backgroundColor = "rgba(76, 175, 80, 0.1)"; // 연한 녹색
+            li.addEventListener("dragover", (e) => {
+                e.preventDefault();
+
+                const targetRect = li.getBoundingClientRect();
+                const offset = e.clientY - targetRect.top;
+
+                if (offset < targetRect.height / 2) {
+                    li.style.transform = "translateY(6px)";
+                } else {
+                    li.style.transform = "translateY(-6px)";
+                }
             });
 
             li.addEventListener("dragleave", () => {
-                li.style.backgroundColor = ""; // 초기화
+                li.style.transform = "translateY(0)";
             });
 
             li.addEventListener("drop", () => {
+                li.style.transform = "translateY(0)";
                 if (dragSrcIndex === null || dragSrcIndex === index) return;
+
                 const moved = playlist.splice(dragSrcIndex, 1)[0];
                 playlist.splice(index, 0, moved);
                 chrome.storage.local.set({ playlist }, () => {
                     loadPlaylist();
                 });
             });
-
-            ul.appendChild(li);
         });
     });
 }
