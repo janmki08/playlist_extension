@@ -1,7 +1,9 @@
+// 테마 적용
 function applyTheme(theme) {
     document.body.classList.toggle("dark-mode", theme === "dark");
 }
 
+// 테마 토글
 function toggleTheme() {
     chrome.storage.local.get(["theme"], (result) => {
         const newTheme = result.theme === "dark" ? "light" : "dark";
@@ -10,6 +12,14 @@ function toggleTheme() {
         });
     });
 }
+
+// 테마 변경
+document.getElementById("theme-select").addEventListener("change", (e) => {
+    const theme = e.target.value;
+    chrome.storage.local.set({ theme }, () => {
+        applyTheme(theme);
+    });
+});
 
 // 드래그 정렬 적용
 function enableDragSorting() {
@@ -118,97 +128,6 @@ function loadPlaylist() {
     });
 }
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === "navigateToUrl" && request.url) {
-        window.location.href = request.url;
-    }
-});
-
-// 초기화
-document.addEventListener("DOMContentLoaded", () => {
-    loadPlaylist();
-    enableDragSorting();
-
-    chrome.storage.local.get(["theme"], (result) => {
-        const savedTheme = result.theme || "light";
-        applyTheme(savedTheme);
-    });
-
-    const saveBtn = document.getElementById("save-btn");
-    const urlInput = document.getElementById("video-url");
-
-    // 저장 버튼
-    saveBtn.addEventListener("click", async () => {
-        const url = urlInput.value.trim();
-        if (!url.includes("youtube.com/watch")) {
-            alert("유효한 유튜브 링크를 입력해주세요.");
-            return;
-        }
-
-        const videoId = new URL(url).searchParams.get("v");
-        const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-
-        let title = "제목 불러오는 중...";
-        try {
-            const res = await fetch(url);
-            const text = await res.text();
-            const matches = text.match(/<title>(.*?)<\/title>/);
-            if (matches && matches[1]) {
-                title = matches[1].replace(" - YouTube", "").trim();
-            }
-        } catch (e) {
-            console.error("제목 불러오기 실패:", e);
-        }
-
-        chrome.storage.local.get(["playlist"], (result) => {
-            const playlist = result.playlist || [];
-
-            const isDuplicate = playlist.some(item => item.url === url);
-            if (isDuplicate) {
-                showToast();
-                return;
-            }
-
-            playlist.push({ title, url, thumbnail });
-            chrome.storage.local.set({ playlist }, () => {
-                urlInput.value = "";
-                loadPlaylist();
-            });
-        });
-    });
-
-    // 사이드바 닫기 버튼
-    const closeBtn = document.getElementById("close-btn");
-    if (closeBtn) {
-        closeBtn.addEventListener("click", () => {
-            window.parent.postMessage({ action: "closeSidebar" }, "*");
-        });
-    }
-
-});
-
-// 설정 토글
-document.getElementById("theme-toggle").addEventListener("click", () => {
-    const dropdown = document.getElementById("dropdown");
-    dropdown.classList.toggle("show");
-});
-
-// 테마 변경
-document.getElementById("theme-select").addEventListener("change", (e) => {
-    const theme = e.target.value;
-    chrome.storage.local.set({ theme }, () => {
-        applyTheme(theme);
-    });
-});
-
-// 언어 변경
-document.getElementById("lang-select").addEventListener("change", (e) => {
-    const lang = e.target.value;
-    chrome.storage.local.set({ lang }, () => {
-        applyLanguage(lang);
-    });
-});
-
 // 언어 데이터
 const languageData = {
     ko: {
@@ -257,6 +176,14 @@ function applyLanguage(lang) {
     window.currentToastText = data.toast_duplicate;
 }
 
+// 언어 변경
+document.getElementById("lang-select").addEventListener("change", (e) => {
+    const lang = e.target.value;
+    chrome.storage.local.set({ lang }, () => {
+        applyLanguage(lang);
+    });
+});
+
 // 토스트 표시 함수
 function showToast(message = window.currentToastText) {
     const toast = document.getElementById("toast");
@@ -268,6 +195,12 @@ function showToast(message = window.currentToastText) {
     }, 2500); // 2.5초
 }
 
+// html 디코딩
+function decodeHtmlEntities(str) {
+    const textarea = document.createElement("textarea");
+    textarea.innerHTML = str;
+    return textarea.value;
+}
 
 // 초기 설정 불러오기
 chrome.storage.local.get(["theme", "lang"], (result) => {
@@ -277,4 +210,79 @@ chrome.storage.local.get(["theme", "lang"], (result) => {
     document.getElementById("lang-select").value = lang;
     applyTheme(theme);
     applyLanguage(lang);
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === "navigateToUrl" && request.url) {
+        window.location.href = request.url;
+    }
+});
+
+// 초기화
+document.addEventListener("DOMContentLoaded", () => {
+    loadPlaylist();
+    enableDragSorting();
+
+    chrome.storage.local.get(["theme"], (result) => {
+        const savedTheme = result.theme || "light";
+        applyTheme(savedTheme);
+    });
+
+    const saveBtn = document.getElementById("save-btn");
+    const urlInput = document.getElementById("video-url");
+
+    // 저장 버튼
+    saveBtn.addEventListener("click", async () => {
+        const url = urlInput.value.trim();
+        if (!url.includes("youtube.com/watch")) {
+            alert("유효한 유튜브 링크를 입력해주세요.");
+            return;
+        }
+
+        const videoId = new URL(url).searchParams.get("v");
+        const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+        let title = "제목 불러오는 중...";
+        try {
+            const res = await fetch(url);
+            const text = await res.text();
+            const matches = text.match(/<title>(.*?)<\/title>/);
+            if (matches && matches[1]) {
+                title = decodeHtmlEntities(matches[1].replace(" - YouTube", "").trim());
+            }
+        } catch (e) {
+            console.error("제목 불러오기 실패:", e);
+        }
+
+        chrome.storage.local.get(["playlist"], (result) => {
+            const playlist = result.playlist || [];
+
+            const isDuplicate = playlist.some(item => item.url === url);
+            if (isDuplicate) {
+                showToast();
+                return;
+            }
+
+            playlist.push({ title, url, thumbnail });
+            chrome.storage.local.set({ playlist }, () => {
+                urlInput.value = "";
+                loadPlaylist();
+            });
+        });
+    });
+
+    // 사이드바 닫기 버튼
+    const closeBtn = document.getElementById("close-btn");
+    if (closeBtn) {
+        closeBtn.addEventListener("click", () => {
+            window.parent.postMessage({ action: "closeSidebar" }, "*");
+        });
+    }
+
+});
+
+// 설정 토글
+document.getElementById("theme-toggle").addEventListener("click", () => {
+    const dropdown = document.getElementById("dropdown");
+    dropdown.classList.toggle("show");
 });
