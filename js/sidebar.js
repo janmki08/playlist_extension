@@ -221,7 +221,7 @@ function showToast(message = window.currentToastText) {
 
 // 툴팁
 function showTooltip(text, x, y) {
-    const tooltip = document.getElementById("custom-tooltip");
+    const tooltip = document.getElementById("tooltip");
     tooltip.textContent = text;
     tooltip.style.opacity = "0";
     tooltip.classList.add("show");
