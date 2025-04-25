@@ -1,6 +1,6 @@
 /* ✅ 공통 설정 */
 :root {
-    --main-color: #4CAF50;
+    --main-color: #1282cc;
     --font-size-base: clamp(0.9rem, 1.2vw, 1.1rem);
     --sidebar-padding: 1.5em;
 }
@@ -208,11 +208,6 @@ li button {
 
 .thumbnail-hover:hover {
     border-color: #1282cc;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
-}
-
-body.dark-mode.thumbnail-hover:hover {
-    border-color: #4CAF50;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
 }
 
