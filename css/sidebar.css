@@ -68,6 +68,7 @@ h2 {
 /* ✅ 설정 드롭다운 */
 #settings-container {
     position: relative;
+    top: -2em;
     /*transform: translateY(-5em);*/
 }
 
