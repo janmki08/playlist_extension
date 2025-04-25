@@ -45,16 +45,6 @@ button:hover {
     gap: 8px;
 }
 
-#button-group button {
-    flex: 1;
-    padding: 6px 12px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
 /* 상단 버튼(✖ + ⚙) 정렬 */
 #top-controls {
     position: absolute;
@@ -132,7 +122,15 @@ body.dark-mode #input-area input {
 body.dark-mode #dropdown select{
     background-color: #181818;
     color: #ccc;
-    border-color: #444;
+    border-color: #444;#button-group button {
+            flex: 1;
+            padding: 6px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
     background: #2c2c2c;
 }
 
@@ -162,6 +160,7 @@ body.dark-mode #dropdown select{
     border-radius: 4px;
     font-size: var(--font-size-base);
     min-width: 0;
+    width: 100%;
 }
 
 #input-area button {
@@ -173,6 +172,7 @@ body.dark-mode #dropdown select{
     font-weight: bold;
     cursor: pointer;
     font-size: var(--font-size-base);
+    max-height: 40px;
 }
 
 /* 재생목록 리스트 */
