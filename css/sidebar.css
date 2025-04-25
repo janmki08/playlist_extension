@@ -248,6 +248,10 @@ body.dark-mode #toast {
 
 .drag-handle {
     font-weight: bold;
+    font-size: 18px;
+    color: #888;
     user-select: none;
     cursor: grab;
+    margin-right: 8px;
+    flex-shrink: 0;
 }
