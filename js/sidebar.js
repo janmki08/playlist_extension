@@ -118,19 +118,6 @@ function loadPlaylist() {
     });
 }
 
-// 메시지 수신 → 영상 추가
-// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-//     if (request.action === "addToPlaylist") {
-//         chrome.storage.local.get(["playlist"], (result) => {
-//             const playlist = result.playlist || [];
-//             playlist.push(request.item);
-//             chrome.storage.local.set({ playlist }, () => {
-//                 loadPlaylist();
-//             });
-//         });
-//     }
-// });
-
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "navigateToUrl" && request.url) {
         window.location.href = request.url;
