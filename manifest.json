@@ -25,7 +25,8 @@
       "resources": [
         "html/sidebar.html",
         "css/sidebar.css",
-        "js/sidebar.js"
+        "js/sidebar.js",
+        "lib/sortable.min.js"
       ],
       "matches": ["<all_urls>"]
     }

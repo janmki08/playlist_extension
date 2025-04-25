@@ -257,11 +257,21 @@ body.dark-mode #toast {
 }
 
 .drag-handle {
-    font-weight: bold;
     font-size: 18px;
-    color: #888;
-    user-select: none;
+    font-weight: bold;
+    color: #666;
     cursor: grab;
-    flex-shrink: 0;
-    margin: 0;
+    user-select: none;
+    margin-right: 0.6em;
+}
+
+.sortable-chosen {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease;
+    z-index: 999;
+}
+
+.sortable-ghost {
+    opacity: 0.4;
 }

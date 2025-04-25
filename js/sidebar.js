@@ -11,6 +11,30 @@ function toggleTheme() {
     });
 }
 
+// 드래그 정렬 적용
+function enableDragSorting() {
+    const list = document.getElementById("playlist");
+    new Sortable(list, {
+        animation: 150,
+        handle: ".drag-handle",
+        onEnd: function (evt) {
+            const oldIndex = evt.oldIndex;
+            const newIndex = evt.newIndex;
+
+            if (oldIndex === newIndex) return;
+
+            chrome.storage.local.get(["playlist"], (result) => {
+                const playlist = result.playlist || [];
+                const moved = playlist.splice(oldIndex, 1)[0];
+                playlist.splice(newIndex, 0, moved);
+                chrome.storage.local.set({ playlist }, () => {
+                    loadPlaylist(); // 정렬 후 새로고침
+                });
+            });
+        }
+    });
+}
+
 // 저장된 재생목록 불러오기
 function loadPlaylist() {
     chrome.storage.local.get(["playlist"], (result) => {
@@ -89,49 +113,7 @@ function loadPlaylist() {
             li.appendChild(handle);
             li.appendChild(contentBox);
             li.appendChild(removeBtn);
-
             ul.appendChild(li);
-            // 드래그 이벤트
-            li.addEventListener("dragstart", (e) => {
-                dragSrcIndex = index;
-                li.classList.add("dragging");
-
-                // 드래그 시 사라지지 않도록 직접 드래그된 요소 유지
-                e.dataTransfer.effectAllowed = "move";
-                e.dataTransfer.setData("text/plain", ""); // Firefox 대응
-            });
-
-            li.addEventListener("dragend", () => {
-                li.classList.remove("dragging");
-            });
-
-            li.addEventListener("dragover", (e) => {
-                e.preventDefault();
-
-                const targetRect = li.getBoundingClientRect();
-                const offset = e.clientY - targetRect.top;
-
-                if (offset < targetRect.height / 2) {
-                    li.style.transform = "translateY(6px)";
-                } else {
-                    li.style.transform = "translateY(-6px)";
-                }
-            });
-
-            li.addEventListener("dragleave", () => {
-                li.style.transform = "translateY(0)";
-            });
-
-            li.addEventListener("drop", () => {
-                li.style.transform = "translateY(0)";
-                if (dragSrcIndex === null || dragSrcIndex === index) return;
-
-                const moved = playlist.splice(dragSrcIndex, 1)[0];
-                playlist.splice(index, 0, moved);
-                chrome.storage.local.set({ playlist }, () => {
-                    loadPlaylist();
-                });
-            });
         });
     });
 }
@@ -158,6 +140,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // 초기화
 document.addEventListener("DOMContentLoaded", () => {
     loadPlaylist();
+    enableDragSorting();
 
     chrome.storage.local.get(["theme"], (result) => {
         const savedTheme = result.theme || "light";
