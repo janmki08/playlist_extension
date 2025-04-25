@@ -1,11 +1,11 @@
-/* ✅ 공통 설정 */
+/* 공통 설정 */
 :root {
     --main-color: #1282cc;
     --font-size-base: clamp(0.9rem, 1.2vw, 1.1rem);
     --sidebar-padding: 1.5em;
 }
 
-/* ✅ 배경 및 폰트 설정 */
+/* 배경 및 폰트 설정 */
 body {
     margin: 0;
     font-family: sans-serif;
@@ -20,7 +20,7 @@ body.dark-mode {
     color: #f1f1f1;
 }
 
-/* ✅ 사이드바 전체 */
+/* 사이드바 전체 */
 #sidebar-root {
     width: 100%;
     max-width: 100%;
@@ -40,7 +40,7 @@ button:hover {
     filter: brightness(1.1);
 }
 
-/* ✅ 상단 버튼(✖ + ⚙) 정렬 */
+/* 상단 버튼(✖ + ⚙) 정렬 */
 #top-controls {
     position: absolute;
     top: 1em;
@@ -58,14 +58,14 @@ button:hover {
     color: inherit;
 }
 
-/* ✅ 제목 */
+/* 제목 */
 h2 {
     font-size: clamp(1rem, 2.5vw, 1.4rem);
     margin-top: 3em;
     margin-bottom: 1em;
 }
 
-/* ✅ 설정 드롭다운 */
+/* 설정 드롭다운 */
 #settings-container {
     position: relative;
     top: -2em;
@@ -131,7 +131,7 @@ body.dark-mode #dropdown select{
     border: 1px solid #ccc;
 }
 
-/* ✅ 입력 영역 */
+/* 입력 영역 */
 #input-area {
     display: flex;
     gap: 0.8em;
@@ -159,7 +159,7 @@ body.dark-mode #dropdown select{
     font-size: var(--font-size-base);
 }
 
-/* ✅ 재생목록 리스트 */
+/* 재생목록 리스트 */
 ul#playlist {
     list-style: none;
     padding: 0;

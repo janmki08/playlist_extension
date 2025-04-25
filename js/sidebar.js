@@ -288,3 +288,46 @@ document.getElementById("theme-toggle").addEventListener("click", () => {
     const dropdown = document.getElementById("dropdown");
     dropdown.classList.toggle("show");
 });
+
+document.getElementById("add-current-btn").addEventListener("click", async () => {
+    // 1. 현재 탭의 유튜브 URL 가져오기
+    chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
+        const tab = tabs[0];
+        const url = tab.url;
+
+        if (!url.includes("youtube.com/watch")) {
+            alert("현재 탭이 유튜브 영상이 아닙니다.");
+            return;
+        }
+
+        const videoId = new URL(url).searchParams.get("v");
+        const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+        let title = "제목 불러오는 중...";
+        try {
+            const res = await fetch(url);
+            const text = await res.text();
+            const matches = text.match(/<title>(.*?)<\/title>/);
+            if (matches && matches[1]) {
+                title = decodeHtmlEntities(matches[1].replace(" - YouTube", "").trim());
+            }
+        } catch (e) {
+            console.error("제목 가져오기 실패:", e);
+        }
+
+        chrome.storage.local.get(["playlist"], (result) => {
+            const playlist = result.playlist || [];
+
+            const isDuplicate = playlist.some(item => item.url === url);
+            if (isDuplicate) {
+                showToast();
+                return;
+            }
+
+            playlist.push({ title, url, thumbnail });
+            chrome.storage.local.set({ playlist }, () => {
+                loadPlaylist();
+            });
+        });
+    });
+});
