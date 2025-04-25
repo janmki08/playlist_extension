@@ -21,8 +21,8 @@ Object.assign(hoverZone.style, {
     position: "fixed",
     top: "0",
     right: "0",
-    width: "40px",
-    height: "100%",
+    width: "30px",
+    height: "80%",
     zIndex: "9999",
     background: "transparent",
 });
