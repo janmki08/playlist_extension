@@ -274,3 +274,28 @@ body.dark-mode #toast {
 .sortable-ghost {
     opacity: 0.4;
 }
+
+/* 툴팁 */
+#tooltip {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    pointer-events: none;
+    z-index: 10000;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    transform: translateY(-8px);
+}
+
+#tooltip.show {
+    opacity: 1;
+}
+
+body.dark-mode #tooltip {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+}

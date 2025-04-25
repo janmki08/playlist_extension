@@ -92,6 +92,18 @@ function loadPlaylist() {
             link.style.textOverflow = "ellipsis";
             link.style.minWidth = "0";
 
+            link.addEventListener("mouseenter", (e) => {
+                showTooltip(item.title, e.clientX, e.clientY);
+            });
+
+            link.addEventListener("mousemove", (e) => {
+                showTooltip(item.title, e.clientX, e.clientY);
+            });
+
+            link.addEventListener("mouseleave", () => {
+                hideTooltip();
+            });
+
             const navigateToVideo = () => {
                 window.parent.postMessage({ action: "closeSidebar" }, "*");
                 setTimeout(() => {
@@ -195,6 +207,20 @@ function showToast(message = window.currentToastText) {
     setTimeout(() => {
         toast.classList.remove("show");
     }, 2500); // 2.5초
+}
+
+// 툴팁
+function showTooltip(text, x, y) {
+    const tooltip = document.getElementById("custom-tooltip");
+    tooltip.textContent = text;
+    tooltip.style.left = `${x + 12}px`;
+    tooltip.style.top = `${y + 12}px`;
+    tooltip.classList.add("show");
+}
+
+function hideTooltip() {
+    const tooltip = document.getElementById("custom-tooltip");
+    tooltip.classList.remove("show");
 }
 
 // html 디코딩
