@@ -7,7 +7,7 @@ Object.assign(sidebar.style, {
     right: "0",
     height: "100%",
     border: "none",
-    zIndex: "60",
+    zIndex: "9998",
     transition: "transform 0.3s ease-in-out",
     transform: "translateX(100%)",
     width: "clamp(200px, 25vw, 300px)",
@@ -23,7 +23,7 @@ Object.assign(hoverZone.style, {
     right: "0",
     width: "30px",
     height: "90%",
-    zIndex: "65",
+    zIndex: "9999",
     background: "transparent",
 });
 hoverZone.id = "hover-zone";
