@@ -211,7 +211,7 @@ function showToast(message = window.currentToastText) {
 
 // 툴팁
 function showTooltip(text, x, y) {
-    const tooltip = document.getElementById("custom-tooltip");
+    const tooltip = document.getElementById("tooltip");
     tooltip.textContent = text;
     tooltip.style.left = `${x + 12}px`;
     tooltip.style.top = `${y + 12}px`;
@@ -219,7 +219,7 @@ function showTooltip(text, x, y) {
 }
 
 function hideTooltip() {
-    const tooltip = document.getElementById("custom-tooltip");
+    const tooltip = document.getElementById("tooltip");
     tooltip.classList.remove("show");
 }
 
