@@ -32,14 +32,13 @@ function loadPlaylist() {
             const handle = document.createElement("span");
             handle.textContent = "≡";
             handle.style.cursor = "grab";
-            handle.style.marginRight = "0.6em";
             handle.classList.add("drag-handle");
 
             // 썸네일
             const img = document.createElement("img");
             img.src = item.thumbnail || "https://via.placeholder.com/110x68?text=No+Thumbnail";
             img.alt = "썸네일";
-            img.style.width = "110px";
+            img.style.width = "90px";
             img.style.height = "auto";
             img.style.flexShrink = "0";
             img.style.borderRadius = "8px";
@@ -81,9 +80,9 @@ function loadPlaylist() {
             const contentBox = document.createElement("div");
             contentBox.style.display = "flex";
             contentBox.style.alignItems = "center";
-            contentBox.style.gap = "12px";
+            contentBox.style.gap = "5px";
             contentBox.style.flexGrow = "1";
-            contentBox.style.maxWidth = "215px";
+            contentBox.style.maxWidth = "200px";
             contentBox.appendChild(img);
             contentBox.appendChild(link);
 
@@ -94,15 +93,19 @@ function loadPlaylist() {
             // 드래그 이벤트
             li.addEventListener("dragstart", () => {
                 dragSrcIndex = index;
-                li.style.opacity = "0.5";
+                li.classList.add("dragging");
             });
 
             li.addEventListener("dragend", () => {
-                li.style.opacity = "1";
+                li.classList.remove("dragging");
             });
 
-            li.addEventListener("dragover", (e) => {
-                e.preventDefault();
+            li.addEventListener("dragover", () => {
+                li.style.backgroundColor = "rgba(76, 175, 80, 0.1)"; // 연한 녹색
+            });
+
+            li.addEventListener("dragleave", () => {
+                li.style.backgroundColor = ""; // 초기화
             });
 
             li.addEventListener("drop", () => {
