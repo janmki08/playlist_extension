@@ -273,5 +273,4 @@ body.dark-mode #toast {
 
 .sortable-ghost {
     opacity: 0.4;
-    transition: opacity 0.2s ease;
 }

@@ -15,10 +15,8 @@ function toggleTheme() {
 function enableDragSorting() {
     const list = document.getElementById("playlist");
     new Sortable(list, {
-        animation: 1000,
-        easing: "cubic-bezier(0.25, 1, 0.5, 1)",
+        animation: 150,
         handle: ".drag-handle",
-        swapThreshold: 0.5, // ❗ 0~1 사이 — 반응 민감도 낮춤 (기본은 1)
         onEnd: function (evt) {
             const oldIndex = evt.oldIndex;
             const newIndex = evt.newIndex;
