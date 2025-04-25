@@ -15,7 +15,8 @@ function toggleTheme() {
 function enableDragSorting() {
     const list = document.getElementById("playlist");
     new Sortable(list, {
-        animation: 150,
+        animation: 300,
+        easing: "cubic-bezier(0.25, 1, 0.5, 1)",
         handle: ".drag-handle",
         onEnd: function (evt) {
             const oldIndex = evt.oldIndex;
