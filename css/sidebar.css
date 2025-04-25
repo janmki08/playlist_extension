@@ -263,6 +263,7 @@ body.dark-mode #toast {
     user-select: none;
     cursor: grab;
     flex-shrink: 0;
+    margin-right: 5px;
 }
 
 .sortable-chosen {
@@ -274,29 +275,4 @@ body.dark-mode #toast {
 
 .sortable-ghost {
     opacity: 0.4;
-}
-
-/* 툴팁 */
-#tooltip {
-    position: fixed;
-    background-color: rgba(255, 255, 255, 0.8);
-    color: black;
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 13px;
-    pointer-events: none;
-    z-index: 10000;
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    transform: translate(0, 0);
-}
-
-#tooltip.show {
-    opacity: 1;
-}
-
-body.dark-mode #tooltip {
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
 }

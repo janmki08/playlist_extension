@@ -72,6 +72,7 @@ function loadPlaylist() {
             const img = document.createElement("img");
             img.src = item.thumbnail || "https://via.placeholder.com/110x68?text=No+Thumbnail";
             img.alt = "썸네일";
+            img.title = item.title;
             img.style.width = "90px";
             img.style.height = "auto";
             img.style.flexShrink = "0";
@@ -82,6 +83,7 @@ function loadPlaylist() {
             // 제목
             const link = document.createElement("span");
             link.textContent = item.title || item.url;
+            link.title = item.title || item.url;
             link.style.cursor = "pointer";
             link.classList.add("hover-zoom");
             link.style.flexGrow = "1";
@@ -89,30 +91,6 @@ function loadPlaylist() {
             link.style.overflow = "hidden";
             link.style.textOverflow = "ellipsis";
             link.style.minWidth = "0";
-
-            link.addEventListener("mouseenter", (e) => {
-                showTooltip(item.title, e.clientX, e.clientY);
-            });
-
-            link.addEventListener("mousemove", (e) => {
-                showTooltip(item.title, e.clientX, e.clientY);
-            });
-
-            link.addEventListener("mouseleave", () => {
-                hideTooltip();
-            });
-
-            img.addEventListener("mouseenter", (e) => {
-                showTooltip(item.title, e.clientX, e.clientY);
-            });
-
-            img.addEventListener("mousemove", (e) => {
-                showTooltip(item.title, e.clientX, e.clientY);
-            });
-
-            img.addEventListener("mouseleave", () => {
-                hideTooltip();
-            });
 
             const navigateToVideo = () => {
                 window.parent.postMessage({ action: "closeSidebar" }, "*");
@@ -217,43 +195,6 @@ function showToast(message = window.currentToastText) {
     setTimeout(() => {
         toast.classList.remove("show");
     }, 2500); // 2.5초
-}
-
-// 툴팁
-function showTooltip(text, x, y) {
-    const tooltip = document.getElementById("tooltip");
-    tooltip.textContent = text;
-    tooltip.style.opacity = "0";
-    tooltip.classList.add("show");
-
-    // 다음 프레임에서 위치 계산
-    requestAnimationFrame(() => {
-        const tooltipRect = tooltip.getBoundingClientRect();
-        const padding = 12;
-
-        let left = x + padding;
-        let top = y + padding;
-
-        // 오른쪽 화면 밖이면 왼쪽으로 이동
-        if (left + tooltipRect.width > window.innerWidth) {
-            left = x - tooltipRect.width - padding;
-        }
-
-        // 아래 화면 밖이면 위로 이동
-        if (top + tooltipRect.height > window.innerHeight) {
-            top = y - tooltipRect.height - padding;
-        }
-
-        tooltip.style.left = "0";
-        tooltip.style.top = "0";
-        tooltip.style.transform = `translate(${left}px, ${top}px)`;
-        tooltip.style.opacity = "1";
-    });
-}
-
-function hideTooltip() {
-    const tooltip = document.getElementById("tooltip");
-    tooltip.classList.remove("show");
 }
 
 // html 디코딩
